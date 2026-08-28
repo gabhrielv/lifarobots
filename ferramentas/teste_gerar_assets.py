@@ -1,5 +1,7 @@
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 from PIL import Image
@@ -8,20 +10,37 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 
 def gerar():
-    # Limpa os SVGs de uma rodada anterior antes de regerar. Sem isso, um
-    # SVG commitado no git sobrevive a uma regressao no loop de geracao
-    # (ex.: range(1, 5) virar range(1, 4)) e o teste de contagem abaixo
-    # passa mesmo que o script tenha parado de gerar aquele arquivo.
+    # Move os SVGs de uma rodada anterior para uma pasta temporaria, em vez
+    # de apagar direto, antes de regerar. Sem isso, um SVG commitado no git
+    # sobrevive a uma regressao no loop de geracao (ex.: range(1, 5) virar
+    # range(1, 4)) e o teste de contagem abaixo passa mesmo que o script
+    # tenha parado de gerar aquele arquivo.
+    #
+    # Se o subprocesso falhar por um motivo alheio a regressao sob teste
+    # (ex.: ORIGEM nao existir nesta maquina), os arquivos originais voltam
+    # para public/img antes da asercao estourar -- uma falha nao pode
+    # deixar a arvore de trabalho com deletions sem recuperacao. Se o
+    # subprocesso for bem-sucedido, o que ele gerou agora e que vale; a
+    # copia temporaria e so descartada, sem restaurar nada -- e isso que
+    # faz a contagem de arquivos no teste de placeholders significar algo.
     img = RAIZ / "public" / "img"
+    pasta_backup = Path(tempfile.mkdtemp(prefix="gerar-assets-backup-"))
     for svg in img.glob("*.svg"):
-        svg.unlink()
+        shutil.move(str(svg), str(pasta_backup / svg.name))
 
-    resultado = subprocess.run(
-        [sys.executable, str(RAIZ / "ferramentas" / "gerar-assets.py")],
-        capture_output=True, text=True,
-    )
-    assert resultado.returncode == 0, resultado.stderr
-    return resultado
+    try:
+        resultado = subprocess.run(
+            [sys.executable, str(RAIZ / "ferramentas" / "gerar-assets.py")],
+            capture_output=True, text=True,
+        )
+        if resultado.returncode != 0:
+            img.mkdir(parents=True, exist_ok=True)
+            for svg in pasta_backup.glob("*.svg"):
+                shutil.move(str(svg), str(img / svg.name))
+        assert resultado.returncode == 0, resultado.stderr
+        return resultado
+    finally:
+        shutil.rmtree(pasta_backup, ignore_errors=True)
 
 
 def teste_logo_tem_alfa_e_e_binaria():
