@@ -1,0 +1,35 @@
+{
+  "nav": [
+    { "id": "sobre",       "rotulo": "[SOBRE]" },
+    { "id": "repositorio", "rotulo": "[REPOSITÓRIO]" },
+    { "id": "equipe",      "rotulo": "[EQUIPE]" },
+    { "id": "contato",     "rotulo": "[CONTATO]" }
+  ],
+  "hero": {
+    "imagem": "img/hero.svg",
+    "alt": "[[LACUNA: descrever a foto do hero]]"
+  },
+  "sobre": {
+    "id": "sobre",
+    "titulo": "SOBRE",
+    "paragrafos": [
+      "O LIFAROBOTS é [[LACUNA: o que a sigla LIFA significa]], uma equipe de robótica de [[LACUNA: instituição]] formada em [[LACUNA: ano de fundação]].",
+      "A equipe projeta e constrói [[LACUNA: que tipos de robô a equipe constrói]], da eletrônica ao firmware, e disputa [[LACUNA: quais competições]].",
+      "[[LACUNA: o que a equipe busca — formação, pesquisa, competição — e o que a torna diferente]]"
+    ]
+  },
+  "secoes": {
+    "repositorio": { "id": "repositorio", "titulo": "REPOSITÓRIO" },
+    "equipe":      { "id": "equipe",      "titulo": "EQUIPE" }
+  },
+  "rodape": {
+    "id": "contato",
+    "titulo": "CONTATO",
+    "campos": [
+      { "rotulo": "E-MAIL",     "valor": "placeholder" },
+      { "rotulo": "INSTAGRAM",  "valor": "placeholder" },
+      { "rotulo": "GITHUB",     "valor": "placeholder" },
+      { "rotulo": "LOCALIZAÇÃO","valor": "placeholder" }
+    ]
+  }
+}

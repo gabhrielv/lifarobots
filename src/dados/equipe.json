@@ -1,0 +1,23 @@
+[
+  {
+    "area": "ELETRONICA",
+    "pessoas": [
+      { "id": "ele-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-01.svg" },
+      { "id": "ele-02", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-02.svg" },
+      { "id": "ele-03", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-03.svg" }
+    ]
+  },
+  {
+    "area": "[[LACUNA: ÁREA 02]]",
+    "pessoas": [
+      { "id": "a02-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-04.svg" },
+      { "id": "a02-02", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-05.svg" }
+    ]
+  },
+  {
+    "area": "[[LACUNA: ÁREA 03]]",
+    "pessoas": [
+      { "id": "a03-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-06.svg" }
+    ]
+  }
+]
