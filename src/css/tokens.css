@@ -1,0 +1,62 @@
+/* ═══════════════════════════════════════════════════════════
+   TOKENS — único arquivo do projeto com cor ou fonte literal.
+   ═══════════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Martian+Mono:wght@400..600&display=swap");
+
+:root {
+  /* ── Paleta ──────────────────────────────────────────────
+     tela-38, tela-14 e tela-06 sao DECORATIVOS.
+     Nunca aplicar em texto: rendem 3.39:1, 1.35:1 e menos,
+     abaixo do minimo AA de 4.5:1.
+     Texto secundario usa tela-52 (5.66:1).                 */
+  --tinta:   #000000;
+  --papel:   #FFFFFF;
+  --tela-70: rgba(255, 255, 255, 0.70);
+  --tela-52: rgba(255, 255, 255, 0.52);
+  --tela-38: rgba(255, 255, 255, 0.38);
+  --tela-14: rgba(255, 255, 255, 0.14);
+  --tela-06: rgba(255, 255, 255, 0.06);
+
+  /* ── Tempos ──────────────────────────────────────────── */
+  --t-reticula:  500ms;
+  --t-crossfade: 240ms;
+  --t-nav:       240ms;
+  --t-grade:     200ms;
+
+  /* ── Ritmo ───────────────────────────────────────────── */
+  --medida:  62ch;
+  --largura: 1200px;
+  --goteira: 24px;
+  --alt-nav: 72px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TIPOGRAFIA
+   Marketing: trocar data-tipografia no index.html.
+     "lifa"  = identidade da equipe
+     "arial" = padrao corporativo
+   Nenhum outro arquivo precisa ser tocado.
+   ═══════════════════════════════════════════════════════════ */
+
+:root[data-tipografia="lifa"] {
+  --fonte-titulo:     "Archivo", sans-serif;
+  --fonte-corpo:      "Archivo", sans-serif;
+  --fonte-utilitaria: "Martian Mono", ui-monospace, monospace;
+  --titulo-largura:   125;
+}
+
+:root[data-tipografia="arial"] {
+  --fonte-titulo:     Arial, Helvetica, sans-serif;
+  --fonte-corpo:      Arial, Helvetica, sans-serif;
+  --fonte-utilitaria: Arial, Helvetica, sans-serif;
+  --titulo-largura:   100;
+}
+
+/* Propriedade registrada: sem isso o tamanho do ponto da
+   reticula salta em vez de transicionar. */
+@property --ponto {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
