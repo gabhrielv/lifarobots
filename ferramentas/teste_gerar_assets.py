@@ -8,6 +8,14 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 
 def gerar():
+    # Limpa os SVGs de uma rodada anterior antes de regerar. Sem isso, um
+    # SVG commitado no git sobrevive a uma regressao no loop de geracao
+    # (ex.: range(1, 5) virar range(1, 4)) e o teste de contagem abaixo
+    # passa mesmo que o script tenha parado de gerar aquele arquivo.
+    img = RAIZ / "public" / "img"
+    for svg in img.glob("*.svg"):
+        svg.unlink()
+
     resultado = subprocess.run(
         [sys.executable, str(RAIZ / "ferramentas" / "gerar-assets.py")],
         capture_output=True, text=True,
@@ -51,3 +59,14 @@ def teste_placeholders_foram_gerados():
     conteudo = (img / "hero.svg").read_text()
     assert "HERO" in conteudo
     assert "2400" in conteudo
+
+    # Cobre o mesmo tipo de checagem de conteudo para um repo-* e um
+    # equipe-*, para nao depender so da contagem de arquivos.
+    repo = (img / "repo-01.svg").read_text()
+    assert "REPO 01" in repo
+    assert "1600" in repo
+    assert "900" in repo
+
+    equipe = (img / "equipe-01.svg").read_text()
+    assert "EQUIPE 01" in equipe
+    assert "800" in equipe
