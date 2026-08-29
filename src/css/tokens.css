@@ -29,16 +29,25 @@
   --largura: 1200px;
   --goteira: 24px;
   --alt-nav: 72px;
+
+  /* ── Tipografia ──────────────────────────────────────────
+     Marketing: trocar data-tipografia no index.html.
+       "lifa"  = identidade da equipe (tambem o padrao abaixo)
+       "arial" = padrao corporativo
+     Nenhum outro arquivo precisa ser tocado.
+
+     O preset "lifa" vive na raiz de :root, nao atras de um seletor de
+     atributo: assim um typo em data-tipografia (ou o atributo ausente)
+     degrada para a fonte da casa, nao para serif do navegador sem
+     nenhum erro visivel. */
+  --fonte-titulo:     "Archivo", sans-serif;
+  --fonte-corpo:      "Archivo", sans-serif;
+  --fonte-utilitaria: "Martian Mono", ui-monospace, monospace;
+  --titulo-largura:   125;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TIPOGRAFIA
-   Marketing: trocar data-tipografia no index.html.
-     "lifa"  = identidade da equipe
-     "arial" = padrao corporativo
-   Nenhum outro arquivo precisa ser tocado.
-   ═══════════════════════════════════════════════════════════ */
-
+/* Opt-in explicito, para o valor do atributo continuar documentado e
+   funcionando como o README descreve. */
 :root[data-tipografia="lifa"] {
   --fonte-titulo:     "Archivo", sans-serif;
   --fonte-corpo:      "Archivo", sans-serif;

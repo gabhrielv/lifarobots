@@ -22,6 +22,10 @@ npm run dev
 Os textos marcados com `[[LACUNA: ...]]` ainda precisam ser preenchidos.
 Substitua o marcador inteiro, colchetes inclusive.
 
+O campo `url` de cada item em `repos.json` está reservado para um link
+futuro do slide para o repositório — hoje ele **não é renderizado**;
+preenchê-lo não tem efeito nenhum no site.
+
 ## Trocar as imagens
 
 Coloque os arquivos em `public/img/` e aponte o caminho no JSON correspondente.
@@ -60,10 +64,34 @@ Valores aceitos: `lifa` (identidade da equipe) ou `arial` (padrão corporativo).
 
 ## Publicar
 
-Todo push na `main` publica sozinho. Os testes rodam antes: se um JSON estiver
-malformado, a publicação é barrada.
+Todo push na `main` publica sozinho no GitHub Pages. Os testes e o linter
+rodam antes: se um JSON estiver malformado ou o lint falhar, a publicação é
+barrada.
 
 ```bash
 npm test    # rodar os testes localmente
+npm run lint
 npm run build
+```
+
+O `base` em `vite.config.js` precisa bater com o nome do repositório no
+GitHub — é assim que os caminhos de asset resolvem sob
+`usuario.github.io/<repo>/`. Hoje ele está fixo em `/lifarobots/`, ou seja, o
+repositório é presumido chamar-se `lifarobots`. Se o repositório for
+renomeado ou movido para outra conta, atualize `base` de acordo.
+
+## Ferramentas de geração de assets
+
+`ferramentas/gerar-assets.py` é um script auxiliar, executado manualmente e
+fora do build, que gera a logo, o morcego e os placeholders SVG a partir dos
+mockups originais (`ferramentas/origem/`). Ele não roda em CI nem é
+necessário para rodar ou publicar o site — os arquivos que ele produz já
+estão commitados em `public/` e são o entregável real.
+
+Rode-o apenas quando for necessário regenerar esses assets a partir da fonte
+(por exemplo, um novo recorte do mockup ou uma versão nova do vetor da
+marca):
+
+```bash
+python3 ferramentas/gerar-assets.py
 ```

@@ -11,15 +11,32 @@ function variaveisDoBloco(seletor) {
   return [...bloco[1].matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]).sort()
 }
 
+// O padrao mora na raiz de :root, ao lado de paleta, tempos e ritmo — nao
+// da para comparar o bloco inteiro contra o preset arial (so tipografia).
+// Filtra para as variaveis que a tipografia de fato declara.
+const TIPOGRAFICA = /^--(fonte-|titulo-largura)/
+function variaveisTipograficas(seletor) {
+  const vars = variaveisDoBloco(seletor)
+  return vars && vars.filter((nome) => TIPOGRAFICA.test(nome))
+}
+
 describe('tokens de tipografia', () => {
-  it('define os presets lifa e arial', () => {
-    expect(variaveisDoBloco(':root[data-tipografia="lifa"]')).not.toBeNull()
+  it('define o padrao (bare :root) e o preset arial', () => {
+    // "lifa" e o padrao: um typo em data-tipografia, ou o atributo
+    // ausente, precisa degradar para a fonte da casa, nao para serif
+    // do navegador. Por isso o preset "lifa" vive na raiz de :root —
+    // so "arial" continua atras de um seletor de atributo.
+    expect(variaveisDoBloco(':root')).not.toBeNull()
     expect(variaveisDoBloco(':root[data-tipografia="arial"]')).not.toBeNull()
   })
 
-  it('os dois presets declaram exatamente as mesmas variaveis', () => {
-    expect(variaveisDoBloco(':root[data-tipografia="arial"]'))
-      .toEqual(variaveisDoBloco(':root[data-tipografia="lifa"]'))
+  it('mantem o opt-in explicito data-tipografia="lifa" funcionando', () => {
+    expect(variaveisDoBloco(':root[data-tipografia="lifa"]')).not.toBeNull()
+  })
+
+  it('o padrao e o preset arial declaram exatamente as mesmas variaveis', () => {
+    expect(variaveisTipograficas(':root[data-tipografia="arial"]'))
+      .toEqual(variaveisTipograficas(':root'))
   })
 
   it('registra a propriedade --ponto para poder transicionar', () => {
