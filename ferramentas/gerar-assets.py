@@ -33,6 +33,10 @@ LIMIAR = 128
 # O arquivo original traz fundo branco, a silhueta e o logotipo
 # "lifarobots" — o site quer so a silhueta, branca, sem fundo.
 MARCA_VETOR = ORIGEM / "part lifa vetor.svg"
+
+# Foto do hero, ja tratada em preto-e-branco pelo cliente.
+HERO_ORIGEM = ORIGEM / "hero.jpg"
+QUALIDADE_HERO = 88
 # Indices dos paths no arquivo original: silhueta e os dois olhos.
 PATH_SILHUETA = 2
 PATHS_OLHOS = (10, 11)
@@ -78,6 +82,20 @@ def gerar_morcego() -> None:
         f'role="img" aria-label="Morcego, simbolo do LIFAROBOTS">'
         f'<path fill="#ffffff" d="{silhueta}"/>{olhos}</svg>',
         encoding="utf-8",
+    )
+
+
+def gerar_hero() -> None:
+    """Normaliza a foto do hero para public/img/hero.jpg.
+
+    Nao redimensiona: a origem tem 1439px de largura e ampliar nao inventa
+    detalhe nenhum, so peso. A qualidade e alta de proposito — a origem ja
+    e um JPEG, e recomprimir baixo somaria artefato sobre artefato numa
+    imagem que ocupa a tela inteira.
+    """
+    imagem = endireitar(Image.open(HERO_ORIGEM)).convert("RGB")
+    imagem.save(
+        IMAGENS / "hero.jpg", "JPEG", quality=QUALIDADE_HERO, optimize=True
     )
 
 
@@ -263,7 +281,8 @@ def main() -> None:
     gerar_logo()
     gerar_morcego()
 
-    gerar_placeholder(IMAGENS / "hero.svg", 2400, 1350, "HERO")
+    # O hero.svg generico saiu junto com o placeholder: ha foto de verdade.
+    gerar_hero()
     for n in range(1, 5):
         gerar_placeholder(IMAGENS / f"repo-{n:02d}.svg", 1600, 900, f"REPO {n:02d}")
 

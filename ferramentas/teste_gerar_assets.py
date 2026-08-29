@@ -102,16 +102,13 @@ def teste_morcego_e_vetor_branco_sem_fundo():
 def teste_placeholders_foram_gerados():
     gerar()
     img = RAIZ / "public" / "img"
-    assert (img / "hero.svg").exists()
     assert len(list(img.glob("repo-*.svg"))) == 4
 
-    # Os equipe-NN.svg genericos foram aposentados quando a grade passou a
-    # ter gente de verdade. Se reaparecerem, o loop antigo ressuscitou.
+    # Dois placeholders foram aposentados quando entrou conteudo de verdade:
+    # os equipe-NN.svg, quando a grade ganhou gente, e o hero.svg, quando
+    # chegou a foto. Se reaparecerem, os loops antigos ressuscitaram.
     assert list(img.glob("equipe-*.svg")) == []
-
-    conteudo = (img / "hero.svg").read_text()
-    assert "HERO" in conteudo
-    assert "2400" in conteudo
+    assert not (img / "hero.svg").exists()
 
     # Cobre o mesmo tipo de checagem de conteudo para um repo-*, para nao
     # depender so da contagem de arquivos.
@@ -119,6 +116,19 @@ def teste_placeholders_foram_gerados():
     assert "REPO 01" in repo
     assert "1600" in repo
     assert "900" in repo
+
+
+def teste_hero_e_foto_e_nao_placeholder():
+    gerar()
+    gerador = carregar_gerador()
+    hero = RAIZ / "public" / "img" / "hero.jpg"
+
+    assert hero.exists()
+    imagem = Image.open(hero)
+    assert imagem.mode == "RGB"
+    # A origem nao e ampliada: ampliar so acrescenta peso, nao detalhe.
+    assert imagem.size == Image.open(gerador.HERO_ORIGEM).size
+    assert not imagem.getexif(), "o hero ainda carrega EXIF"
 
 
 def teste_iniciais_cobrem_quem_nao_tem_foto():

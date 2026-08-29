@@ -48,9 +48,13 @@ Coloque os arquivos em `public/img/` e aponte o caminho no JSON correspondente.
 
 | Onde | Tamanho | Formato |
 |---|---|---|
-| Hero | 2400 × 1350 | JPEG |
 | Carrossel | 1600 × 900 | JPEG |
 | Equipe | 800 × 800 | JPEG |
+
+O hero e os retratos da equipe não se trocam por aqui: os dois saem de
+`ferramentas/gerar-assets.py`. Para o hero, substitua
+`ferramentas/origem/hero.jpg` e rode o script; para a equipe, veja
+*Fotos da equipe* abaixo.
 
 Por exemplo, para trocar a foto do primeiro slide do carrossel, em
 `src/dados/repos.json`, mude o campo `"imagem"`:
@@ -124,8 +128,9 @@ renomeado ou movido para outra conta, atualize `base` de acordo.
 ## Ferramentas de geração de assets
 
 `ferramentas/gerar-assets.py` é um script auxiliar, executado manualmente e
-fora do build, que gera a logo, o morcego e os placeholders SVG a partir dos
-mockups originais (`ferramentas/origem/`). Ele não roda em CI nem é
+fora do build. Ele gera, a partir de `ferramentas/origem/`, a logo, o
+morcego, a foto do hero e os placeholders SVG do carrossel; e, a partir da
+pasta de fotos oficiais, os retratos da equipe. Não roda em CI nem é
 necessário para rodar ou publicar o site — os arquivos que ele produz já
 estão commitados em `public/` e são o entregável real.
 

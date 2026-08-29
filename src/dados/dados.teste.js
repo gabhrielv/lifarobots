@@ -15,6 +15,14 @@ import equipe from './equipe.json'
 // existem, transformando a asercao abaixo num teste que nunca passa.
 const PUBLICO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public')
 
+/** Um caminho de imagem no JSON e uma string solta: um erro de digitacao
+ *  vira imagem quebrada em producao sem que nenhum outro teste note —
+ *  `<img>` com src invalido renderiza e passa em qualquer asercao de
+ *  componente. So o disco sabe a verdade. */
+function existeEmPublico(relativo) {
+  return existsSync(path.join(PUBLICO, relativo))
+}
+
 describe('site.json', () => {
   it('tem os quatro itens de navegacao entre colchetes', () => {
     expect(site.nav).toHaveLength(4)
@@ -26,9 +34,10 @@ describe('site.json', () => {
     }
   })
 
-  it('o hero tem imagem e alt preenchidos', () => {
+  it('o hero tem imagem e alt preenchidos, e a imagem existe', () => {
     expect(site.hero.imagem).toBeTruthy()
     expect(site.hero.alt).toBeTruthy()
+    expect(existeEmPublico(site.hero.imagem), site.hero.imagem).toBe(true)
   })
 
   it('a marca tem alt para a logo e para o morcego, ambos strings nao vazias', () => {
@@ -109,6 +118,7 @@ describe('repos.json', () => {
     expect(new Set(ids).size).toBe(ids.length)
     for (const slide of repos) {
       expect(slide.imagem).toBeTruthy()
+      expect(existeEmPublico(slide.imagem), slide.imagem).toBe(true)
       expect(slide.alt).toBeTruthy()
       expect(slide.nome).toBeTruthy()
       expect(slide.texto).toBeTruthy()
@@ -188,14 +198,9 @@ describe('equipe.json', () => {
   })
 
   it('toda foto referenciada existe em public/', () => {
-    // O caminho da foto e uma string solta no JSON: um erro de digitacao
-    // vira imagem quebrada em producao sem que nenhum outro teste note —
-    // `<img>` com src invalido renderiza e passa em todas as asercoes de
-    // componente. So o disco sabe a verdade.
     for (const pessoa of pessoas) {
       expect(pessoa.foto).toBeTruthy()
-      const arquivo = path.join(PUBLICO, pessoa.foto)
-      expect(existsSync(arquivo), `foto sumida: ${pessoa.foto}`).toBe(true)
+      expect(existeEmPublico(pessoa.foto), `foto sumida: ${pessoa.foto}`).toBe(true)
     }
   })
 })

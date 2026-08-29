@@ -10,8 +10,8 @@
     "morcegoAlt": "Morcego, símbolo do LIFAROBOTS"
   },
   "hero": {
-    "imagem": "img/hero.svg",
-    "alt": "[[LACUNA: descrever a foto do hero]]"
+    "imagem": "img/hero.jpg",
+    "alt": "Placa de controle de um robô da equipe em primeiro plano, com o microcontrolador, os sensores e a fiação descendo até o motor e a roda"
   },
   "sobre": {
     "id": "sobre",
