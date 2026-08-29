@@ -15,20 +15,20 @@ function montar() {
 describe('Equipe', () => {
   it('mostra uma aba por area, mais a aba TODOS', () => {
     montar()
-    expect(screen.getAllByRole('tab')).toHaveLength(equipe.length + 1)
+    expect(screen.getAllByRole('button')).toHaveLength(equipe.length + 1)
   })
 
   it('comeca com TODOS ativa e o time inteiro visivel', () => {
     const { container } = montar()
-    const abas = screen.getAllByRole('tab')
-    expect(abas[0]).toHaveAttribute('aria-selected', 'true')
+    const abas = screen.getAllByRole('button')
+    expect(abas[0]).toHaveAttribute('aria-pressed', 'true')
     expect(container.querySelectorAll('.cartao')).toHaveLength(totalPessoas)
   })
 
   it('clicar numa area reduz a grade aquela area', async () => {
     const usuario = userEvent.setup()
     const { container } = montar()
-    await usuario.click(screen.getAllByRole('tab')[1])
+    await usuario.click(screen.getAllByRole('button')[1])
     expect(container.querySelectorAll('.cartao'))
       .toHaveLength(equipe[0].pessoas.length)
   })
@@ -40,12 +40,12 @@ describe('Equipe', () => {
     expect(screen.getAllByText(`/ ${primeira.especialidade}`)[0]).toBeInTheDocument()
   })
 
-  it('so a aba ativa fica marcada como selecionada', async () => {
+  it('so a aba ativa fica marcada como pressionada', async () => {
     const usuario = userEvent.setup()
     montar()
-    await usuario.click(screen.getAllByRole('tab')[1])
-    const selecionadas = screen.getAllByRole('tab')
-      .filter((aba) => aba.getAttribute('aria-selected') === 'true')
+    await usuario.click(screen.getAllByRole('button')[1])
+    const selecionadas = screen.getAllByRole('button')
+      .filter((aba) => aba.getAttribute('aria-pressed') === 'true')
     expect(selecionadas).toHaveLength(1)
   })
 })

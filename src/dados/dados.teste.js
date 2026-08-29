@@ -50,6 +50,19 @@ describe('site.json', () => {
     ]
     expect(ids.sort()).toEqual(site.nav.map((i) => i.id).sort())
   })
+
+  it('a secao equipe tem os campos de formato da aba e da especialidade', () => {
+    const { rotuloTodos, formatoAba, prefixoEspecialidade } = site.secoes.equipe
+    expect(typeof rotuloTodos).toBe('string')
+    expect(rotuloTodos.length).toBeGreaterThan(0)
+    expect(typeof formatoAba).toBe('string')
+    expect(formatoAba.length).toBeGreaterThan(0)
+    // Sem o marcador, a substituicao nao tem onde encaixar a area e toda
+    // aba renderizaria com o mesmo texto.
+    expect(formatoAba).toContain('{area}')
+    expect(typeof prefixoEspecialidade).toBe('string')
+    expect(prefixoEspecialidade.length).toBeGreaterThan(0)
+  })
 })
 
 describe('repos.json', () => {

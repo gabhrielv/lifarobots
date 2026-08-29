@@ -24,7 +24,13 @@
   },
   "secoes": {
     "repositorio": { "id": "repositorio", "titulo": "REPOSITÓRIO" },
-    "equipe":      { "id": "equipe",      "titulo": "EQUIPE" }
+    "equipe": {
+      "id": "equipe",
+      "titulo": "EQUIPE",
+      "rotuloTodos": "TODOS",
+      "formatoAba": "[{area}]",
+      "prefixoEspecialidade": "/ "
+    }
   },
   "rodape": {
     "id": "contato",
