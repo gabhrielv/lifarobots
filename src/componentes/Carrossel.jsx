@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useCarrossel } from '../hooks/useCarrossel.js'
 import { useDeslize } from '../hooks/useDeslize.js'
 import { caminho } from '../lib/caminho.js'
@@ -19,6 +20,14 @@ export default function Carrossel({ secao, slides }) {
     aoDireita: () => irPara(indice - 1),
   })
 
+  // Mobile sintetiza mouseenter/mouseleave depois de um toque, sem o par
+  // correspondente — sem esse portao, o primeiro tap pausaria o autoplay
+  // para sempre e um toque numa lateral disparia o dwell por engano.
+  const temHover = useMemo(
+    () => globalThis.matchMedia?.('(hover: hover)').matches ?? true,
+    [],
+  )
+
   return (
     <section className="secao carrossel" id={secao.id} aria-labelledby={idTitulo}>
       <h2 className="secao__titulo" id={idTitulo}>{secao.titulo}</h2>
@@ -30,8 +39,8 @@ export default function Carrossel({ secao, slides }) {
         aria-roledescription="carrossel"
         aria-label={secao.titulo}
         onKeyDown={aoTeclar}
-        onMouseEnter={pausar}
-        onMouseLeave={() => { aoSairLateral(); retomar() }}
+        onMouseEnter={temHover ? pausar : undefined}
+        onMouseLeave={temHover ? () => { aoSairLateral(); retomar() } : undefined}
         {...deslize}
       >
         {slides.map((slide, i) => {
@@ -46,8 +55,8 @@ export default function Carrossel({ secao, slides }) {
               data-id={slide.id}
               data-posicao={posicao}
               aria-hidden={eCentro ? 'false' : 'true'}
-              onMouseEnter={eCentro ? undefined : () => aoEntrarLateral(i)}
-              onMouseLeave={eCentro ? undefined : aoSairLateral}
+              onMouseEnter={eCentro || !temHover ? undefined : () => aoEntrarLateral(i)}
+              onMouseLeave={eCentro || !temHover ? undefined : aoSairLateral}
             >
               <img className="slide__imagem" src={caminho(slide.imagem)} alt={slide.alt} />
               {/* Trama de pontos. Fecha no centro, abre nas laterais. */}

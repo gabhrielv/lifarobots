@@ -82,6 +82,32 @@ describe('Carrossel', () => {
   })
 })
 
+describe('Carrossel — sem hover (celular)', () => {
+  it('sem "(hover: hover)", tocar no trilho nao pausa o autoplay', () => {
+    // Override local e explicito: nao depende do default do stub
+    // compartilhado em preparo.js continuar reportando "sem hover".
+    vi.spyOn(globalThis, 'matchMedia').mockReturnValue({
+      matches: false,
+      media: '(hover: hover)',
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })
+
+    const { container } = montar()
+    const trilho = container.querySelector('.carrossel__trilho')
+
+    // Mobile sintetiza mouseenter sem o mouseleave correspondente. Se o
+    // manipulador nao estiver desligado, isso pausaria o autoplay para
+    // sempre — o oposto do que a Tarefa 11 existe para resolver.
+    act(() => fireEvent.mouseEnter(trilho))
+    act(() => vi.advanceTimersByTime(5000))
+
+    expect(screen.getByText(repos[1].texto)).toBeInTheDocument()
+  })
+})
+
 describe('Carrossel — contrato de CSS do trilho', () => {
   it('define order para cada data-posicao, alinhado ao valor da posicao', () => {
     // O flex posiciona na ordem do DOM, nao na ordem logica dos dados. Sem
