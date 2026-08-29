@@ -2,9 +2,11 @@ import { useRef } from 'react'
 import Cabecalho from './componentes/Cabecalho.jsx'
 import Hero from './componentes/Hero.jsx'
 import SecaoTexto from './componentes/SecaoTexto.jsx'
+import Carrossel from './componentes/Carrossel.jsx'
 import Rodape from './componentes/Rodape.jsx'
 import { useForaDaTela } from './hooks/useForaDaTela.js'
 import site from './dados/site.json'
+import repos from './dados/repos.json'
 
 export default function App() {
   const sentinela = useRef(null)
@@ -16,6 +18,7 @@ export default function App() {
       <main>
         <Hero itens={site.nav} hero={site.hero} marca={site.marca} refSentinela={sentinela} />
         <SecaoTexto {...site.sobre} />
+        <Carrossel secao={site.secoes.repositorio} slides={repos} />
       </main>
       <Rodape rodape={site.rodape} />
     </>
