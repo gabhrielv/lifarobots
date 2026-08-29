@@ -1,4 +1,5 @@
 import shutil
+import re
 import subprocess
 import sys
 import tempfile
@@ -61,11 +62,24 @@ def teste_logo_tem_alfa_e_e_binaria():
     )
 
 
-def teste_morcego_existe_em_alta():
+def teste_morcego_e_vetor_branco_sem_fundo():
     gerar()
-    morcego = Image.open(RAIZ / "public" / "morcego.png")
-    assert morcego.mode == "RGBA"
-    assert morcego.width >= 320, "morcego pequeno demais para telas retina"
+    svg = (RAIZ / "public" / "morcego.svg").read_text(encoding="utf-8")
+
+    # Vetor: escala sem perder nitidez, ao contrario do recorte antigo.
+    assert "viewBox=" in svg, "sem viewBox o SVG nao escala"
+
+    # Exatamente tres formas: silhueta + dois olhos. Qualquer path a mais
+    # significa que o fundo branco ou o logotipo "lifarobots" vazou junto.
+    paths = re.findall(r"<path ", svg)
+    assert len(paths) == 3, f"esperava 3 paths, veio {len(paths)}"
+
+    # A silhueta e branca (o site e preto) e os olhos sao vazados em preto.
+    assert svg.count('fill="#ffffff"') == 1, "silhueta deveria ser branca"
+    assert svg.count('fill="#000000"') == 2, "os dois olhos deveriam ser pretos"
+
+    # O PNG antigo saiu de cena: nada deve continuar apontando para ele.
+    assert not (RAIZ / "public" / "morcego.png").exists()
 
 
 def teste_placeholders_foram_gerados():

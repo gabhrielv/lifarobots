@@ -5,6 +5,7 @@ Roda uma vez, fora do build. Os arquivos vao para public/.
     python3 ferramentas/gerar-assets.py
 """
 
+import re
 from pathlib import Path
 
 from PIL import Image
@@ -16,8 +17,17 @@ IMAGENS = PUBLICO / "img"
 
 # Coordenadas conferidas nos mockups de 1280x860.
 RECORTE_LOGO = (40, 40, 1240, 200)
-RECORTE_MORCEGO = (580, 45, 700, 100)
 LIMIAR = 128
+
+# O morcego vem do vetor oficial da marca, nao do recorte do mockup.
+# O arquivo original traz fundo branco, a silhueta e o logotipo
+# "lifarobots" — o site quer so a silhueta, branca, sem fundo.
+MARCA_VETOR = ORIGEM / "part lifa vetor.svg"
+# Indices dos paths no arquivo original: silhueta e os dois olhos.
+PATH_SILHUETA = 2
+PATHS_OLHOS = (10, 11)
+# Caixa da silhueta medida por renderizacao, com 4px de folga.
+CAIXA_MORCEGO = "178 348 642 258"
 
 
 def binarizar(imagem: Image.Image) -> Image.Image:
@@ -41,11 +51,24 @@ def gerar_logo() -> None:
 
 
 def gerar_morcego() -> None:
-    origem = Image.open(ORIGEM / "repo.jpeg").crop(RECORTE_MORCEGO)
-    # A fonte tem ~120px de largura e o morcego aparece a ~56px na nav.
-    # Ampliar com NEAREST preserva a silhueta chapada; BICUBIC borraria.
-    ampliado = origem.resize((origem.width * 4, origem.height * 4), Image.NEAREST)
-    binarizar(ampliado).save(PUBLICO / "morcego.png")
+    """Extrai a silhueta do vetor oficial e a devolve branca, sem fundo.
+
+    O arquivo da marca e preto sobre branco e inclui o logotipo. Na nav do
+    site, sobre preto, so a silhueta interessa: ela vira branca e os olhos
+    ficam pretos, casando com o fundo da pagina.
+    """
+    fonte = MARCA_VETOR.read_text(encoding="utf-8")
+    paths = re.findall(r'<path d="([^"]+)"', fonte)
+    silhueta = paths[PATH_SILHUETA]
+    olhos = "".join(
+        f'<path fill="#000000" d="{paths[i]}"/>' for i in PATHS_OLHOS
+    )
+    (PUBLICO / "morcego.svg").write_text(
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{CAIXA_MORCEGO}" '
+        f'role="img" aria-label="Morcego, simbolo do LIFAROBOTS">'
+        f'<path fill="#ffffff" d="{silhueta}"/>{olhos}</svg>',
+        encoding="utf-8",
+    )
 
 
 def gerar_placeholder(destino: Path, largura: int, altura: int, rotulo: str) -> None:
