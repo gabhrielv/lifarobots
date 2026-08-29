@@ -120,3 +120,65 @@
   height: 1px;
   width: 100%;
 }
+
+/* ── Secoes genericas ───────────────────────────────────── */
+
+.secao {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: clamp(72px, 12vh, 148px) var(--goteira);
+}
+
+.secao__titulo {
+  margin: 0 0 clamp(36px, 6vh, 72px);
+  font-family: var(--fonte-titulo);
+  font-variation-settings: "wdth" var(--titulo-largura);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: 0.38em;
+  /* letter-spacing empurra o texto para a direita; o recuo compensa
+     para o titulo ficar opticamente centrado. */
+  text-indent: 0.38em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.secao__corpo {
+  max-width: var(--medida);
+  margin: 0 auto;
+  font-size: clamp(1.0625rem, 1.4vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--tela-70);
+}
+
+.secao__corpo p { margin: 0 0 1.2em; }
+.secao__corpo p:last-child { margin-bottom: 0; }
+
+/* ── Rodape ─────────────────────────────────────────────── */
+
+.rodape {
+  border-top: 1px solid var(--tela-14);
+}
+
+.rodape__campos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+  margin: 0;
+}
+
+.rodape__campo { margin: 0; }
+
+.rodape__rotulo {
+  font-family: var(--fonte-utilitaria);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--tela-52);
+}
+
+.rodape__valor {
+  margin: 8px 0 0;
+  font-family: var(--fonte-utilitaria);
+  font-size: 0.875rem;
+  color: var(--papel);
+}
