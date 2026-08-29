@@ -3,6 +3,7 @@
     "id": "repo-01",
     "imagem": "img/repo-01.svg",
     "alt": "[[LACUNA: descrever a imagem do repositório 01]]",
+    "nome": "placeholder",
     "texto": "[[LACUNA: descrição do repositório 01 — o que faz, que problema resolve, que tecnologias usa]]",
     "url": null
   },
@@ -10,6 +11,7 @@
     "id": "repo-02",
     "imagem": "img/repo-02.svg",
     "alt": "[[LACUNA: descrever a imagem do repositório 02]]",
+    "nome": "placeholder",
     "texto": "[[LACUNA: descrição do repositório 02 — o que faz, que problema resolve, que tecnologias usa]]",
     "url": null
   },
@@ -17,6 +19,7 @@
     "id": "repo-03",
     "imagem": "img/repo-03.svg",
     "alt": "[[LACUNA: descrever a imagem do repositório 03]]",
+    "nome": "placeholder",
     "texto": "[[LACUNA: descrição do repositório 03 — o que faz, que problema resolve, que tecnologias usa]]",
     "url": null
   },
@@ -24,6 +27,7 @@
     "id": "repo-04",
     "imagem": "img/repo-04.svg",
     "alt": "[[LACUNA: descrever a imagem do repositório 04]]",
+    "nome": "placeholder",
     "texto": "[[LACUNA: descrição do repositório 04 — o que faz, que problema resolve, que tecnologias usa]]",
     "url": null
   }

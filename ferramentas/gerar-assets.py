@@ -120,6 +120,9 @@ FOCO_PADRAO = (0.50, 0.38, 1.0)
 # cartao vira uma mancha.
 FOCOS = {
     "lucas-martins": (0.24, 0.395, 0.30),
+    # Foto muito alta (627x1398) com o rosto no topo: o padrao, centrado em
+    # 0.38 da altura, cortava a cabeca inteira e enquadrava a gravata.
+    "vitor-gabriel": (0.50, 0.155, 0.69),
     "bernardo-peccini": (0.53, 0.47, 0.70),
     "gustavo-bersan": (0.66, 0.27, 0.62),
 }

@@ -11,17 +11,19 @@ describe('useCarrossel — autoplay', () => {
     expect(result.current.indice).toBe(0)
   })
 
-  it('avanca sozinho a cada 5 segundos', () => {
+  it('avanca sozinho a cada 12 segundos', () => {
     const { result } = renderHook(() => useCarrossel(4))
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(11999))
+    expect(result.current.indice).toBe(0)
+    act(() => vi.advanceTimersByTime(1))
     expect(result.current.indice).toBe(1)
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(12000))
     expect(result.current.indice).toBe(2)
   })
 
   it('da a volta ao passar do ultimo', () => {
     const { result } = renderHook(() => useCarrossel(2))
-    act(() => vi.advanceTimersByTime(10000))
+    act(() => vi.advanceTimersByTime(24000))
     expect(result.current.indice).toBe(0)
   })
 })
@@ -47,7 +49,7 @@ describe('useCarrossel — pausa', () => {
     act(() => vi.advanceTimersByTime(1))
     expect(result.current.indice).toBe(0)
 
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(12000))
     expect(result.current.indice).toBe(1)
   })
 })
@@ -64,6 +66,35 @@ describe('useCarrossel — dwell do hover lateral', () => {
 
   it('troca o centro quando o cursor fica 250ms', () => {
     const { result } = renderHook(() => useCarrossel(4))
+    act(() => result.current.aoEntrarLateral(2))
+    act(() => vi.advanceTimersByTime(250))
+    expect(result.current.indice).toBe(2)
+  })
+
+  it('um avanco por dwell nao arma outro dwell sozinho', () => {
+    const { result } = renderHook(() => useCarrossel(4))
+    act(() => result.current.aoEntrarLateral(1))
+    act(() => vi.advanceTimersByTime(250))
+    expect(result.current.indice).toBe(1)
+
+    // Avancar redesenha o trilho sob um cursor parado: as larguras nao
+    // mudam, entao o slide seguinte ocupa exatamente a faixa de tela onde
+    // o ponteiro ja estava, e o navegador dispara mouseenter nele. Isso e
+    // o layout se mexendo, nao o usuario apontando — e sem guarda o dwell
+    // se re-arma sozinho, num ciclo de 250ms que nunca para.
+    act(() => result.current.aoEntrarLateral(2))
+    act(() => vi.advanceTimersByTime(250))
+    expect(result.current.indice).toBe(1)
+  })
+
+  it('volta a aceitar o dwell depois que o trilho assenta', () => {
+    const { result } = renderHook(() => useCarrossel(4))
+    act(() => result.current.aoEntrarLateral(1))
+    act(() => vi.advanceTimersByTime(250))
+
+    // Passada a transicao, um mouseenter so pode ter vindo de movimento
+    // real do ponteiro: a guarda nao pode virar um bloqueio permanente.
+    act(() => vi.advanceTimersByTime(500))
     act(() => result.current.aoEntrarLateral(2))
     act(() => vi.advanceTimersByTime(250))
     expect(result.current.indice).toBe(2)

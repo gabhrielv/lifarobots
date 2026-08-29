@@ -104,12 +104,13 @@ describe('repos.json', () => {
     expect(repos.length).toBeGreaterThanOrEqual(3)
   })
 
-  it('todo slide tem id unico, imagem, alt e texto', () => {
+  it('todo slide tem id unico, imagem, alt, nome e texto', () => {
     const ids = repos.map((r) => r.id)
     expect(new Set(ids).size).toBe(ids.length)
     for (const slide of repos) {
       expect(slide.imagem).toBeTruthy()
       expect(slide.alt).toBeTruthy()
+      expect(slide.nome).toBeTruthy()
       expect(slide.texto).toBeTruthy()
     }
   })

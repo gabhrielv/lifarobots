@@ -37,9 +37,10 @@ estar declarada em `areas`, e toda área declarada precisa ter pelo menos uma
 pessoa. `npm test` falha se divergirem — uma área só declarada vira uma aba
 que abre vazia, e uma área só citada nunca vira aba.
 
-O campo `url` de cada item em `repos.json` está reservado para um link
-futuro do slide para o repositório — hoje ele **não é renderizado**;
-preenchê-lo não tem efeito nenhum no site.
+Cada item de `repos.json` tem `nome` (o nome do projeto, exibido abaixo da
+imagem) e `texto` (a descrição, abaixo do nome). O campo `url` está
+reservado para um link futuro do slide para o repositório — hoje ele **não é
+renderizado**; preenchê-lo não tem efeito nenhum no site.
 
 ## Trocar as imagens
 

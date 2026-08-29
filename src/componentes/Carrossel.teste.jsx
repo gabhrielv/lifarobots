@@ -41,9 +41,24 @@ describe('Carrossel', () => {
     expect(screen.getByText(repos[0].texto)).toBeInTheDocument()
   })
 
-  it('troca o texto quando o autoplay avanca', () => {
+  it('mostra o nome do projeto do slide central', () => {
     montar()
-    act(() => vi.advanceTimersByTime(5000))
+    expect(screen.getByText(repos[0].nome)).toBeInTheDocument()
+  })
+
+  it('o nome fica dentro da regiao viva, junto da descricao', () => {
+    // Se o nome ficasse fora, o leitor de tela anunciaria a descricao de um
+    // projeto sem dizer de qual projeto se trata.
+    const { container } = montar()
+    const regiao = container.querySelector('[aria-live="polite"]')
+    expect(regiao).toContainElement(screen.getByText(repos[0].nome))
+    expect(regiao).toContainElement(screen.getByText(repos[0].texto))
+  })
+
+  it('troca o nome e o texto quando o autoplay avanca', () => {
+    montar()
+    act(() => vi.advanceTimersByTime(12000))
+    expect(screen.getByText(repos[1].nome)).toBeInTheDocument()
     expect(screen.getByText(repos[1].texto)).toBeInTheDocument()
   })
 
@@ -74,7 +89,7 @@ describe('Carrossel', () => {
     const regiao = container.querySelector('[aria-live="polite"]')
     expect(regiao).toBeInTheDocument()
 
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(12000))
 
     // Se a regiao viva remontar quando o slide troca, o leitor de tela nao
     // anuncia nada — precisa ser o mesmo no do DOM antes e depois.
@@ -102,7 +117,7 @@ describe('Carrossel — sem hover (celular)', () => {
     // manipulador nao estiver desligado, isso pausaria o autoplay para
     // sempre — o oposto do que a Tarefa 11 existe para resolver.
     act(() => fireEvent.mouseEnter(trilho))
-    act(() => vi.advanceTimersByTime(5000))
+    act(() => vi.advanceTimersByTime(12000))
 
     expect(screen.getByText(repos[1].texto)).toBeInTheDocument()
   })

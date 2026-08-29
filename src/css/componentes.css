@@ -217,6 +217,13 @@
   overflow-x: clip;
 }
 
+/* O titulo sobe: com o nome do projeto abaixo da imagem, a secao ganhou
+   um segundo bloco de texto, e o respiro padrao de ate 72px empurrava o
+   conjunto para fora da dobra. So aqui — as outras secoes seguem o padrao. */
+.carrossel .secao__titulo {
+  margin-bottom: clamp(20px, 3vh, 36px);
+}
+
 .carrossel__trilho {
   position: relative;
   display: flex;
@@ -264,7 +271,7 @@
 
 /* Centro: resolvido. */
 .slide[data-posicao="0"] {
-  width: min(58vw, 900px);
+  width: min(46vw, 700px);
   aspect-ratio: 16 / 9;
   opacity: 1;
   z-index: 2;
@@ -310,9 +317,24 @@
   pointer-events: none;
 }
 
+.carrossel__nome {
+  max-width: var(--medida);
+  margin: clamp(32px, 5vh, 56px) auto 0;
+  padding: 0 var(--goteira);
+  font-family: var(--fonte-corpo);
+  font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  animation: aparecer var(--t-crossfade) ease;
+  overflow-wrap: anywhere;
+}
+
 .carrossel__texto {
   max-width: var(--medida);
-  margin: clamp(40px, 6vh, 72px) auto 0;
+  /* O respiro grande agora fica acima do nome: entre nome e descricao so
+     o suficiente para lerem como um bloco so. */
+  margin: clamp(10px, 1.4vh, 16px) auto 0;
   padding: 0 var(--goteira);
   font-size: clamp(1.0625rem, 1.4vw, 1.375rem);
   line-height: 1.55;

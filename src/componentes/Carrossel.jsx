@@ -70,6 +70,12 @@ export default function Carrossel({ secao, slides }) {
           leitor de tela nao anuncia a troca. So o <p> interno remonta,
           para reiniciar o crossfade. */}
       <div className="carrossel__anuncio" aria-live="polite">
+        {/* Nome e descricao dividem a regiao viva: anunciar a descricao
+            sozinha nao diria de que projeto ela fala. Cada um remonta pela
+            propria key, para o crossfade reiniciar nos dois. */}
+        <p className="carrossel__nome" key={`${slides[indice].id}-nome`}>
+          {slides[indice].nome}
+        </p>
         <p className="carrossel__texto" key={slides[indice].id}>
           {slides[indice].texto}
         </p>
