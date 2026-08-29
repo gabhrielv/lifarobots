@@ -77,6 +77,7 @@ def gerar_placeholder(destino: Path, largura: int, altura: int, rotulo: str) -> 
     Deixa explicito que o espaco esta reservado, em vez de parecer defeito.
     """
     passo = 40
+    corpo = max(13, largura // 48)
     linhas = [
         f'<line x1="{x}" y1="0" x2="{x}" y2="{altura}" />'
         for x in range(passo, largura, passo)
@@ -91,11 +92,14 @@ def gerar_placeholder(destino: Path, largura: int, altura: int, rotulo: str) -> 
         f'<g stroke="rgba(255,255,255,0.06)" stroke-width="1">{"".join(linhas)}</g>'
         f'<rect x="0.5" y="0.5" width="{largura - 1}" height="{altura - 1}" '
         f'fill="none" stroke="rgba(255,255,255,0.14)"/>'
-        f'<text x="{largura / 2}" y="{altura / 2 - 8}" fill="rgba(255,255,255,0.52)" '
-        f'font-family="monospace" font-size="{max(13, largura // 48)}" '
+        # As duas linhas se afastam em funcao do corpo da fonte, nao de um
+        # valor fixo: com offset fixo o rotulo e a dimensao se sobrepoem
+        # assim que o placeholder passa de ~1300px de largura.
+        f'<text x="{largura / 2}" y="{altura / 2}" fill="rgba(255,255,255,0.52)" '
+        f'font-family="monospace" font-size="{corpo}" '
         f'letter-spacing="3" text-anchor="middle">{rotulo}</text>'
-        f'<text x="{largura / 2}" y="{altura / 2 + 20}" fill="rgba(255,255,255,0.38)" '
-        f'font-family="monospace" font-size="{max(11, largura // 68)}" '
+        f'<text x="{largura / 2}" y="{altura / 2 + corpo * 1.7}" fill="rgba(255,255,255,0.38)" '
+        f'font-family="monospace" font-size="{corpo * 0.62:.0f}" '
         f'text-anchor="middle">{largura} × {altura}</text>'
         f'</svg>',
         encoding="utf-8",
