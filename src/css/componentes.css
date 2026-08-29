@@ -453,17 +453,8 @@
   .cartao__retrato { width: 84px; }
 }
 
-/* ── Movimento reduzido ─────────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  .slide,
-  .slide__imagem,
-  .slide__reticula {
-    transition: none;
-  }
-
-  .carrossel__texto,
-  .cartao {
-    animation: none;
-  }
-}
+/* A politica de movimento reduzido mora so em base.css: a regra la ja
+   aplica `transition-duration` e `animation-duration: 0.01ms !important`
+   a todo elemento, o que domina qualquer `transition`/`animation` sem
+   `!important` declarada aqui. Duplicar os seletores aqui era so um
+   bloco morto. */

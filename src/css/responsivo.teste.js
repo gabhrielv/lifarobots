@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const css = readFileSync(resolve('src/css/componentes.css'), 'utf8')
+const cssBase = readFileSync(resolve('src/css/base.css'), 'utf8')
 
 describe('pontos de quebra', () => {
   it('tem um ponto de quebra para tablet e outro para celular', () => {
@@ -17,8 +18,12 @@ describe('pontos de quebra', () => {
 })
 
 describe('movimento reduzido', () => {
-  it('desliga a animacao da reticula', () => {
-    expect(css).toContain('@media (prefers-reduced-motion: reduce)')
+  it('a politica de movimento reduzido existe, com um unico dono em base.css', () => {
+    // base.css aplica transition-duration/animation-duration com !important
+    // a todo elemento, o que domina qualquer regra sem !important — por
+    // isso a politica tem uma casa so, e nao um bloco duplicado (e morto)
+    // em componentes.css.
+    expect(cssBase).toContain('@media (prefers-reduced-motion: reduce)')
   })
 })
 
