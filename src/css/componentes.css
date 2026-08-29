@@ -302,3 +302,82 @@
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* ── Equipe ─────────────────────────────────────────────── */
+
+.equipe__filtros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 40px);
+  margin-bottom: clamp(40px, 6vh, 72px);
+}
+
+.aba {
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: none;
+  font-family: var(--fonte-utilitaria);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--tela-52);
+  cursor: pointer;
+  transition: color var(--t-grade) ease, border-color var(--t-grade) ease;
+}
+
+.aba:hover { color: var(--tela-70); }
+
+.aba--ativa {
+  color: var(--papel);
+  border-bottom-color: var(--papel);
+}
+
+.equipe__grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cartao {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  animation: aparecer var(--t-grade) ease;
+}
+
+.cartao__retrato {
+  flex-shrink: 0;
+  width: 100px;
+  aspect-ratio: 1;
+  border: 1px solid var(--tela-14);
+  overflow: hidden;
+}
+
+.cartao__foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.cartao__dados { min-width: 0; }
+
+.cartao__nome {
+  margin: 0;
+  font-family: var(--fonte-corpo);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.cartao__especialidade {
+  margin: 4px 0 0;
+  font-family: var(--fonte-utilitaria);
+  font-size: 0.6875rem;
+  color: var(--tela-52);
+}
