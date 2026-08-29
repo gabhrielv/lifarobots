@@ -1,16 +1,55 @@
-# React + Vite
+# LIFAROBOTS
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Site de página única da equipe. React + Vite, publicado no GitHub Pages.
 
-Currently, two official plugins are available:
+## Rodar localmente
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+## Editar o conteúdo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Nenhuma edição de texto exige mexer em código.** Tudo vive em `src/dados/`:
 
-## Expanding the Oxlint configuration
+| Arquivo | O que contém |
+|---|---|
+| `site.json` | Menu, texto do Sobre, campos do rodapé |
+| `repos.json` | Slides do carrossel |
+| `equipe.json` | Áreas e integrantes |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Os textos marcados com `[[LACUNA: ...]]` ainda precisam ser preenchidos.
+Substitua o marcador inteiro, colchetes inclusive.
+
+## Trocar as imagens
+
+Coloque os arquivos em `public/img/` e aponte o caminho no JSON correspondente.
+
+| Onde | Tamanho | Formato |
+|---|---|---|
+| Hero | 2400 × 1350 | JPEG |
+| Carrossel | 1600 × 900 | JPEG |
+| Equipe | 800 × 800 | JPEG |
+
+Não converta para preto-e-branco — o site faz isso sozinho no CSS.
+
+## Trocar a fonte para Arial
+
+Em `index.html`, mude uma palavra:
+
+```html
+<html lang="pt-BR" data-tipografia="arial">
+```
+
+Valores aceitos: `lifa` (identidade da equipe) ou `arial` (padrão corporativo).
+
+## Publicar
+
+Todo push na `main` publica sozinho. Os testes rodam antes: se um JSON estiver
+malformado, a publicação é barrada.
+
+```bash
+npm test    # rodar os testes localmente
+npm run build
+```
