@@ -17,10 +17,25 @@ npm run dev
 |---|---|
 | `site.json` | Menu, texto do Sobre, campos do rodapé |
 | `repos.json` | Slides do carrossel |
-| `equipe.json` | Áreas e integrantes |
+| `equipe.json` | Áreas (na ordem das abas) e integrantes |
 
 Os textos marcados com `[[LACUNA: ...]]` ainda precisam ser preenchidos.
 Substitua o marcador inteiro, colchetes inclusive.
+
+Em `equipe.json`, a lista `areas` no topo define a ordem das abas do filtro,
+e `pessoas` lista a equipe. Uma pessoa pode pertencer a mais de uma área —
+ela aparece em cada filtro correspondente e uma única vez em `[TODOS]`:
+
+```json
+{ "id": "gustavo-rosa", "nome": "Gustavo O. Rosa",
+  "areas": ["QUANTUM & MACHINE LEARNING", "SIMULAÇÃO"],
+  "foto": "img/equipe/gustavo-rosa.jpg" }
+```
+
+As duas listas precisam bater: toda área citada dentro de uma pessoa tem de
+estar declarada em `areas`, e toda área declarada precisa ter pelo menos uma
+pessoa. `npm test` falha se divergirem — uma área só declarada vira uma aba
+que abre vazia, e uma área só citada nunca vira aba.
 
 O campo `url` de cada item em `repos.json` está reservado para um link
 futuro do slide para o repositório — hoje ele **não é renderizado**;
@@ -50,7 +65,32 @@ Por exemplo, para trocar a foto do primeiro slide do carrossel, em
 O arquivo `repo-01.jpg` precisa existir em `public/img/`. O caminho no JSON
 sempre começa com `img/`, sem `public/` na frente.
 
-Não converta para preto-e-branco — o site faz isso sozinho no CSS.
+O hero e os slides do carrossel são convertidos para preto-e-branco pelo
+CSS; não converta os arquivos. Os retratos da equipe aparecem coloridos.
+
+### Fotos da equipe
+
+Os retratos em `public/img/equipe/` são gerados a partir dos originais do
+formulário, que ficam em `Foto oficial do membro  (File responses)/` e
+**não são versionados** (44 MB, um deles um PNG de 23 MB). O que entra no
+git são os 800 × 800 já prontos.
+
+Para incluir alguém novo:
+
+1. Ponha o original na pasta de fotos.
+2. Em `ferramentas/gerar-assets.py`, acrescente a pessoa em `RETRATOS`
+   (`id` → nome do arquivo). Se a foto oficial ainda não chegou, acrescente
+   em `INICIAIS` (`id` → iniciais) e um espaço reservado é gerado no lugar.
+3. Rode `python3 ferramentas/gerar-assets.py`.
+4. Acrescente a pessoa em `src/dados/equipe.json`, com o mesmo `id`.
+
+Se o recorte automático enquadrar mal, ajuste em `FOCOS`: `(x, y, escala)`
+em frações da imagem, onde `x`/`y` é o ponto focal e `escala` é o lado do
+recorte em fração do menor lado. `(0.5, 0.5, 1.0)` é o quadrado inteiro
+centrado; escalas menores fecham no rosto.
+
+O gerador descarta o EXIF dos originais: GPS, modelo de aparelho e data não
+chegam aos arquivos publicados.
 
 ## Trocar a fonte para Arial
 
@@ -94,4 +134,11 @@ marca):
 
 ```bash
 python3 ferramentas/gerar-assets.py
+```
+
+Os testes do gerador seguem o mesmo padrão de nome do resto do projeto
+(`teste_*`, não `test_*`), configurado em `pytest.ini`:
+
+```bash
+python3 -m pytest ferramentas/
 ```

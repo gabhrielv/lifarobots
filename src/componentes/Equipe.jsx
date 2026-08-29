@@ -9,10 +9,10 @@ function rotuloAba(nome, secao) {
   return secao.formatoAba.replace('{area}', texto)
 }
 
-export default function Equipe({ secao, grupos }) {
+export default function Equipe({ secao, equipe }) {
   const [area, setArea] = useState(AREA_TODOS)
-  const areas = extrairAreas(grupos)
-  const pessoas = filtrarPessoas(grupos, area)
+  const areas = extrairAreas(equipe)
+  const pessoas = filtrarPessoas(equipe, area)
   const idTitulo = `${secao.id}-titulo`
 
   return (
@@ -47,9 +47,6 @@ export default function Equipe({ secao, grupos }) {
             </div>
             <div className="cartao__dados">
               <p className="cartao__nome">{pessoa.nome}</p>
-              <p className="cartao__especialidade">
-                {secao.prefixoEspecialidade}{pessoa.especialidade}
-              </p>
             </div>
           </li>
         ))}

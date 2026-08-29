@@ -21,7 +21,7 @@ export default function App() {
         <Hero itens={site.nav} hero={site.hero} marca={site.marca} refSentinela={sentinela} />
         <SecaoTexto {...site.sobre} />
         <Carrossel secao={site.secoes.repositorio} slides={repos} />
-        <Equipe secao={site.secoes.equipe} grupos={equipe} />
+        <Equipe secao={site.secoes.equipe} equipe={equipe} />
       </main>
       <Rodape rodape={site.rodape} />
     </>

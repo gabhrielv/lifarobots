@@ -1,3 +1,5 @@
+import importlib.util
+import json
 import shutil
 import re
 import subprocess
@@ -8,6 +10,21 @@ from pathlib import Path
 from PIL import Image
 
 RAIZ = Path(__file__).resolve().parent.parent
+
+
+def carregar_gerador():
+    """Importa gerar-assets.py pelo caminho.
+
+    O hifen no nome do arquivo o torna inimportavel por `import`, e as
+    tabelas RETRATOS/INICIAIS precisam vir de la: repeti-las aqui faria o
+    teste concordar consigo mesmo em vez de com o gerador.
+    """
+    spec = importlib.util.spec_from_file_location(
+        "gerar_assets", RAIZ / "ferramentas" / "gerar-assets.py"
+    )
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
 
 
 def gerar():
@@ -87,19 +104,72 @@ def teste_placeholders_foram_gerados():
     img = RAIZ / "public" / "img"
     assert (img / "hero.svg").exists()
     assert len(list(img.glob("repo-*.svg"))) == 4
-    assert len(list(img.glob("equipe-*.svg"))) == 6
+
+    # Os equipe-NN.svg genericos foram aposentados quando a grade passou a
+    # ter gente de verdade. Se reaparecerem, o loop antigo ressuscitou.
+    assert list(img.glob("equipe-*.svg")) == []
 
     conteudo = (img / "hero.svg").read_text()
     assert "HERO" in conteudo
     assert "2400" in conteudo
 
-    # Cobre o mesmo tipo de checagem de conteudo para um repo-* e um
-    # equipe-*, para nao depender so da contagem de arquivos.
+    # Cobre o mesmo tipo de checagem de conteudo para um repo-*, para nao
+    # depender so da contagem de arquivos.
     repo = (img / "repo-01.svg").read_text()
     assert "REPO 01" in repo
     assert "1600" in repo
     assert "900" in repo
 
-    equipe = (img / "equipe-01.svg").read_text()
-    assert "EQUIPE 01" in equipe
-    assert "800" in equipe
+
+def teste_iniciais_cobrem_quem_nao_tem_foto():
+    gerar()
+    gerador = carregar_gerador()
+    equipe = RAIZ / "public" / "img" / "equipe"
+
+    for pessoa, iniciais in gerador.INICIAIS.items():
+        svg = equipe / f"{pessoa}.svg"
+        assert svg.exists(), f"faltou o retrato reservado de {pessoa}"
+        conteudo = svg.read_text(encoding="utf-8")
+        assert f">{iniciais}<" in conteudo
+        # Mesmo lado dos retratos: a grade nao pode ganhar uma celula de
+        # outro tamanho so porque a foto ainda nao chegou.
+        assert f'width="{gerador.LADO_RETRATO}"' in conteudo
+
+
+def teste_retratos_saem_quadrados_e_sem_exif():
+    gerador = carregar_gerador()
+    if not gerador.FOTOS.is_dir():
+        return  # os originais nao acompanham o repositorio
+
+    gerar()
+    equipe = RAIZ / "public" / "img" / "equipe"
+    lado = gerador.LADO_RETRATO
+
+    for pessoa in gerador.RETRATOS:
+        arquivo = equipe / f"{pessoa}.jpg"
+        assert arquivo.exists(), f"faltou o retrato de {pessoa}"
+        imagem = Image.open(arquivo)
+        assert imagem.size == (lado, lado), f"{pessoa}: {imagem.size}"
+        assert imagem.mode == "RGB"
+        # Os originais carregam GPS, modelo de aparelho e data. Nada disso
+        # pode sobreviver num arquivo publicado.
+        assert not imagem.getexif(), f"{pessoa} ainda carrega EXIF"
+
+
+def teste_gerador_e_json_cobrem_a_mesma_gente():
+    """A tabela do gerador e o equipe.json sao editados a mao, em momentos
+    diferentes. Sem esta amarra, alguem que entra na equipe pode ganhar
+    cartao no JSON e nenhuma imagem, ou uma entrada no gerador e nenhum
+    cartao — e o unico sintoma seria uma foto quebrada em producao.
+    """
+    gerador = carregar_gerador()
+    equipe = json.loads(
+        (RAIZ / "src" / "dados" / "equipe.json").read_text(encoding="utf-8")
+    )
+
+    no_json = {p["id"] for p in equipe["pessoas"]}
+    no_gerador = set(gerador.RETRATOS) | set(gerador.INICIAIS)
+    assert no_json == no_gerador, (
+        f"so no JSON: {sorted(no_json - no_gerador)} / "
+        f"so no gerador: {sorted(no_gerador - no_json)}"
+    )

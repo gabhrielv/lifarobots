@@ -27,3 +27,7 @@ __pycache__
 *.njsproj
 *.sln
 *.sw?
+
+# Originais das fotos oficiais (44MB). O entregavel sao os retratos de
+# 800x800 em public/img/equipe/, gerados por ferramentas/gerar-assets.py.
+Foto oficial do membro  (File responses)/

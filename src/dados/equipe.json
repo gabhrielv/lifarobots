@@ -1,23 +1,48 @@
-[
-  {
-    "area": "ELETRÔNICA",
-    "pessoas": [
-      { "id": "ele-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-01.svg" },
-      { "id": "ele-02", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-02.svg" },
-      { "id": "ele-03", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-03.svg" }
-    ]
-  },
-  {
-    "area": "[[LACUNA: ÁREA 02]]",
-    "pessoas": [
-      { "id": "a02-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-04.svg" },
-      { "id": "a02-02", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-05.svg" }
-    ]
-  },
-  {
-    "area": "[[LACUNA: ÁREA 03]]",
-    "pessoas": [
-      { "id": "a03-01", "nome": "[[LACUNA: NOME SOBRENOME]]", "especialidade": "[[LACUNA: especialidade]]", "foto": "img/equipe-06.svg" }
-    ]
-  }
-]
+{
+  "areas": [
+    "ELETRÔNICA EMBARCADA",
+    "PROGRAMAÇÃO EMBARCADA",
+    "PROGRAMAÇÃO WEB",
+    "QUANTUM & MACHINE LEARNING",
+    "MODELAGEM E IMPRESSÃO 3D",
+    "SIMULAÇÃO",
+    "PROTOTIPAGEM DE MÁQUINAS",
+    "PEDAGOGIA",
+    "MARKETING"
+  ],
+  "pessoas": [
+    { "id": "bernardo-abrahao", "nome": "Bernardo Abrahão Lopes", "areas": ["ELETRÔNICA EMBARCADA"], "foto": "img/equipe/bernardo-abrahao.jpg" },
+
+    { "id": "rodrigo-bon", "nome": "Rodrigo Bon", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/rodrigo-bon.jpg" },
+    { "id": "gustavo-bersan", "nome": "Gustavo Bersan", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/gustavo-bersan.jpg" },
+    { "id": "joao-nilson", "nome": "João Nilson", "areas": ["PROGRAMAÇÃO EMBARCADA", "PROTOTIPAGEM DE MÁQUINAS"], "foto": "img/equipe/joao-nilson.jpg" },
+    { "id": "vinicius-soldati", "nome": "Vinicius Soldati", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/vinicius-soldati.jpg" },
+    { "id": "bernardo-peccini", "nome": "Bernardo Peccini", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/bernardo-peccini.jpg" },
+
+    { "id": "gabhriel", "nome": "Gabhriel", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/gabhriel.jpg" },
+    { "id": "davi-grossi", "nome": "Davi Grossi", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/davi-grossi.jpg" },
+
+    { "id": "gustavo-rosa", "nome": "Gustavo O. Rosa", "areas": ["QUANTUM & MACHINE LEARNING", "SIMULAÇÃO"], "foto": "img/equipe/gustavo-rosa.jpg" },
+    { "id": "guilherme-camanho", "nome": "Guilherme Camanho", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/guilherme-camanho.svg" },
+    { "id": "danilo", "nome": "Danilo", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/danilo.svg" },
+    { "id": "isabella", "nome": "Isabella", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/isabella.svg" },
+
+    { "id": "vitor-gabriel", "nome": "Vitor Gabriel", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/vitor-gabriel.jpg" },
+    { "id": "lucas-martins", "nome": "Lucas Martins", "areas": ["MODELAGEM E IMPRESSÃO 3D", "PROTOTIPAGEM DE MÁQUINAS"], "foto": "img/equipe/lucas-martins.jpg" },
+    { "id": "evelyn-queiroz", "nome": "Evelyn Queiroz", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/evelyn-queiroz.jpg" },
+    { "id": "adrian-marini", "nome": "Adrian Marini", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/adrian-marini.jpg" },
+
+    { "id": "vinycius", "nome": "Vinycius", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/vinycius.svg" },
+    { "id": "luis", "nome": "Luis", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/luis.svg" },
+    { "id": "pifano", "nome": "Pifano", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/pifano.jpg" },
+
+    { "id": "vitoria", "nome": "Vitória", "areas": ["PEDAGOGIA"], "foto": "img/equipe/vitoria.jpg" },
+    { "id": "luiza-colucci", "nome": "Luiza Colucci", "areas": ["PEDAGOGIA"], "foto": "img/equipe/luiza-colucci.jpg" },
+    { "id": "heitor-silveira", "nome": "Heitor Silveira", "areas": ["PEDAGOGIA"], "foto": "img/equipe/heitor-silveira.jpg" },
+    { "id": "matheus-bersan", "nome": "Matheus Bersan", "areas": ["PEDAGOGIA"], "foto": "img/equipe/matheus-bersan.jpg" },
+
+    { "id": "mariana-gomes", "nome": "Mariana Gomes", "areas": ["MARKETING"], "foto": "img/equipe/mariana-gomes.jpg" },
+    { "id": "tiaguera", "nome": "Tiaguera", "areas": ["MARKETING"], "foto": "img/equipe/tiaguera.svg" },
+    { "id": "leticia-ribeiro", "nome": "Letícia Ribeiro", "areas": ["MARKETING"], "foto": "img/equipe/leticia-ribeiro.jpg" }
+  ]
+}

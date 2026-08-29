@@ -28,8 +28,7 @@
       "id": "equipe",
       "titulo": "EQUIPE",
       "rotuloTodos": "TODOS",
-      "formatoAba": "[{area}]",
-      "prefixoEspecialidade": "/ "
+      "formatoAba": "[{area}]"
     }
   },
   "rodape": {

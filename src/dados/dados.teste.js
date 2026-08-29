@@ -1,7 +1,19 @@
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
 import site from './site.json'
 import repos from './repos.json'
 import equipe from './equipe.json'
+
+// Resolvido a partir do proprio arquivo de teste, nao de process.cwd():
+// o caminho fica correto independente de onde o vitest for chamado.
+//
+// `new URL(...)` seria o idioma esperado aqui e nao funciona: o ambiente de
+// teste e jsdom, cujo `URL` global nao e o do Node, e `fs.existsSync` nao
+// reconhece esse objeto — devolve false para todo caminho, inclusive os que
+// existem, transformando a asercao abaixo num teste que nunca passa.
+const PUBLICO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public')
 
 describe('site.json', () => {
   it('tem os quatro itens de navegacao entre colchetes', () => {
@@ -75,8 +87,8 @@ describe('site.json', () => {
     }
   })
 
-  it('a secao equipe tem os campos de formato da aba e da especialidade', () => {
-    const { rotuloTodos, formatoAba, prefixoEspecialidade } = site.secoes.equipe
+  it('a secao equipe tem os campos de formato da aba', () => {
+    const { rotuloTodos, formatoAba } = site.secoes.equipe
     expect(typeof rotuloTodos).toBe('string')
     expect(rotuloTodos.length).toBeGreaterThan(0)
     expect(typeof formatoAba).toBe('string')
@@ -84,8 +96,6 @@ describe('site.json', () => {
     // Sem o marcador, a substituicao nao tem onde encaixar a area e toda
     // aba renderizaria com o mesmo texto.
     expect(formatoAba).toContain('{area}')
-    expect(typeof prefixoEspecialidade).toBe('string')
-    expect(prefixoEspecialidade.length).toBeGreaterThan(0)
   })
 })
 
@@ -106,35 +116,85 @@ describe('repos.json', () => {
 })
 
 describe('equipe.json', () => {
-  it('tem ao menos uma area', () => {
-    expect(equipe.length).toBeGreaterThan(0)
+  const { areas, pessoas } = equipe
+
+  it('declara ao menos uma area e ao menos uma pessoa', () => {
+    expect(areas.length).toBeGreaterThan(0)
+    expect(pessoas.length).toBeGreaterThan(0)
   })
 
-  it('toda pessoa tem id unico no site inteiro, nome e especialidade', () => {
-    const ids = equipe.flatMap((g) => g.pessoas.map((p) => p.id))
+  it('toda pessoa tem id unico no site inteiro e nome nao vazio', () => {
+    const ids = pessoas.map((p) => p.id)
     expect(new Set(ids).size).toBe(ids.length)
-    for (const grupo of equipe) {
-      expect(grupo.area).toBeTruthy()
-      expect(grupo.pessoas.length).toBeGreaterThan(0)
-      for (const pessoa of grupo.pessoas) {
-        expect(pessoa.nome).toBeTruthy()
-        expect(pessoa.especialidade).toBeTruthy()
-      }
+    for (const pessoa of pessoas) {
+      expect(typeof pessoa.nome).toBe('string')
+      expect(pessoa.nome.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('toda pessoa pertence a ao menos uma area', () => {
+    // Uma pessoa com `areas: []` desaparece de todos os filtros menos
+    // TODOS. O cartao existe, mas nenhuma aba chega ate ele — e nenhuma
+    // contagem de grade denuncia isso, porque a grade de TODOS continua
+    // com o numero certo.
+    for (const pessoa of pessoas) {
+      expect(Array.isArray(pessoa.areas)).toBe(true)
+      expect(pessoa.areas.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('nenhuma pessoa repete a mesma area', () => {
+    // `includes` nao se importa com a repeticao, entao o site nao quebra —
+    // mas a duplicata e sinal de edicao errada, e o proximo a mexer no
+    // arquivo copiaria o engano.
+    for (const pessoa of pessoas) {
+      expect(new Set(pessoa.areas).size).toBe(pessoa.areas.length)
     }
   })
 
   it('nenhuma area se chama "todos", que e reservado para o filtro', () => {
-    for (const grupo of equipe) {
-      expect(grupo.area.toLowerCase()).not.toBe('todos')
+    for (const area of areas) {
+      expect(area.toLowerCase()).not.toBe('todos')
     }
   })
 
-  it('nenhuma area se repete', () => {
+  it('nenhuma area se repete na lista de abas', () => {
     // `extrairAreas` nao deduplica, e o resultado alimenta `key={nome}` e o
-    // rotulo do botao de filtro. Uma equipe que divide uma area em dois
-    // blocos do JSON — uma edicao natural — produziria chaves React
+    // rotulo do botao de filtro. Uma area repetida produz chaves React
     // duplicadas e dois botoes identicos, ambos "pressionados" juntos.
-    const nomes = equipe.map((grupo) => grupo.area)
-    expect(new Set(nomes).size).toBe(nomes.length)
+    expect(new Set(areas).size).toBe(areas.length)
+  })
+
+  it('toda area citada por uma pessoa esta declarada na lista de abas', () => {
+    // A ordem das abas vem de `areas`, nao das pessoas. Uma area que so
+    // existe dentro de alguem nunca vira botao: essa pessoa ficaria
+    // alcancavel somente por TODOS.
+    const declaradas = new Set(areas)
+    for (const pessoa of pessoas) {
+      for (const area of pessoa.areas) {
+        expect(declaradas).toContain(area)
+      }
+    }
+  })
+
+  it('nenhuma area declarada fica sem ninguem', () => {
+    // O caminho inverso do teste acima: uma area renomeada so na lista de
+    // abas deixa um botao que abre numa grade vazia.
+    const povoadas = new Set(pessoas.flatMap((p) => p.areas))
+    for (const area of areas) {
+      expect(povoadas).toContain(area)
+    }
+  })
+
+  it('toda foto referenciada existe em public/', () => {
+    // O caminho da foto e uma string solta no JSON: um erro de digitacao
+    // vira imagem quebrada em producao sem que nenhum outro teste note —
+    // `<img>` com src invalido renderiza e passa em todas as asercoes de
+    // componente. So o disco sabe a verdade.
+    for (const pessoa of pessoas) {
+      expect(pessoa.foto).toBeTruthy()
+      const arquivo = path.join(PUBLICO, pessoa.foto)
+      expect(existsSync(arquivo), `foto sumida: ${pessoa.foto}`).toBe(true)
+    }
   })
 })
