@@ -32,6 +32,20 @@ Coloque os arquivos em `public/img/` e aponte o caminho no JSON correspondente.
 | Carrossel | 1600 × 900 | JPEG |
 | Equipe | 800 × 800 | JPEG |
 
+Por exemplo, para trocar a foto do primeiro slide do carrossel, em
+`src/dados/repos.json`, mude o campo `"imagem"`:
+
+```json
+"imagem": "img/repo-01.svg"
+```
+
+```json
+"imagem": "img/repo-01.jpg"
+```
+
+O arquivo `repo-01.jpg` precisa existir em `public/img/`. O caminho no JSON
+sempre começa com `img/`, sem `public/` na frente.
+
 Não converta para preto-e-branco — o site faz isso sozinho no CSS.
 
 ## Trocar a fonte para Arial
