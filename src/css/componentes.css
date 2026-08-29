@@ -381,3 +381,65 @@
   font-size: 0.6875rem;
   color: var(--tela-52);
 }
+
+/* ── Tablet ─────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .equipe__grade { grid-template-columns: repeat(2, 1fr); }
+
+  .cabecalho__nav { gap: clamp(16px, 4vw, 40px); }
+  .cabecalho__marca { width: 44px; }
+
+  .slide[data-posicao="0"] { width: 72vw; }
+}
+
+/* ── Celular ────────────────────────────────────────────── */
+
+@media (max-width: 639px) {
+  .equipe__grade { grid-template-columns: 1fr; }
+
+  .cabecalho {
+    height: auto;
+    padding: 12px 0;
+  }
+
+  .cabecalho__nav {
+    flex-wrap: wrap;
+    gap: 10px 20px;
+  }
+
+  /* O morcego passa a ocupar a primeira linha inteira, com os
+     links abaixo — a divisao em dois lados nao cabe. */
+  .cabecalho__marca { order: -1; width: 40px; }
+  .cabecalho__lado { gap: 20px; }
+
+  .hero__lista { gap: 20px 28px; }
+
+  /* Sem hover no toque: o slide central ocupa quase tudo e sobra
+     uma fresta do proximo, sinalizando que ha mais conteudo.
+     A navegacao fica por conta do deslize. */
+  .slide[data-posicao="0"] { width: 84vw; }
+
+  .slide[data-posicao="-1"],
+  .slide[data-posicao="1"] {
+    width: 10vw;
+    cursor: default;
+  }
+
+  .cartao__retrato { width: 84px; }
+}
+
+/* ── Movimento reduzido ─────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .slide__imagem,
+  .slide__reticula {
+    transition: none;
+  }
+
+  .carrossel__texto,
+  .cartao {
+    animation: none;
+  }
+}

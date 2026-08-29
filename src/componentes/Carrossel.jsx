@@ -1,4 +1,5 @@
 import { useCarrossel } from '../hooks/useCarrossel.js'
+import { useDeslize } from '../hooks/useDeslize.js'
 import { caminho } from '../lib/caminho.js'
 import { posicaoRelativa, POSICOES_VISIVEIS } from '../lib/carrossel.js'
 
@@ -13,6 +14,11 @@ export default function Carrossel({ secao, slides }) {
     if (evento.key === 'ArrowLeft') irPara(indice - 1)
   }
 
+  const deslize = useDeslize({
+    aoEsquerda: () => irPara(indice + 1),
+    aoDireita: () => irPara(indice - 1),
+  })
+
   return (
     <section className="secao carrossel" id={secao.id} aria-labelledby={idTitulo}>
       <h2 className="secao__titulo" id={idTitulo}>{secao.titulo}</h2>
@@ -26,6 +32,7 @@ export default function Carrossel({ secao, slides }) {
         onKeyDown={aoTeclar}
         onMouseEnter={pausar}
         onMouseLeave={() => { aoSairLateral(); retomar() }}
+        {...deslize}
       >
         {slides.map((slide, i) => {
           const posicao = posicaoRelativa(i, indice, total)
