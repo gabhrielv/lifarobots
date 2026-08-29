@@ -70,8 +70,8 @@ Por exemplo, para trocar a foto do primeiro slide do carrossel, em
 O arquivo `repo-01.jpg` precisa existir em `public/img/`. O caminho no JSON
 sempre começa com `img/`, sem `public/` na frente.
 
-O hero e os slides do carrossel são convertidos para preto-e-branco pelo
-CSS; não converta os arquivos. Os retratos da equipe aparecem coloridos.
+Não converta para preto-e-branco — o site faz isso sozinho no CSS, no hero,
+nos slides do carrossel e nos retratos da equipe.
 
 ### Fotos da equipe
 
