@@ -46,13 +46,32 @@ describe('Carrossel', () => {
     expect(screen.getByText(repos[0].nome)).toBeInTheDocument()
   })
 
-  it('o nome fica dentro da regiao viva, junto da descricao', () => {
-    // Se o nome ficasse fora, o leitor de tela anunciaria a descricao de um
-    // projeto sem dizer de qual projeto se trata.
+  it('nome e descricao ficam cada um em sua regiao viva', () => {
+    // O nome subiu para cima da imagem e a descricao ficou abaixo: nao ha
+    // mais como envolver os dois numa regiao so. Cada um anuncia a propria
+    // troca, na ordem do DOM — sem isso o leitor de tela ouviria a
+    // descricao de um projeto sem dizer de qual projeto se trata.
     const { container } = montar()
-    const regiao = container.querySelector('[aria-live="polite"]')
-    expect(regiao).toContainElement(screen.getByText(repos[0].nome))
-    expect(regiao).toContainElement(screen.getByText(repos[0].texto))
+    const regioes = container.querySelectorAll('[aria-live="polite"]')
+    expect(regioes).toHaveLength(2)
+    expect(regioes[0]).toContainElement(screen.getByText(repos[0].nome))
+    expect(regioes[1]).toContainElement(screen.getByText(repos[0].texto))
+  })
+
+  it('o nome fica entre o titulo da secao e o trilho', () => {
+    const { container } = montar()
+    const filhos = [...container.querySelector('.carrossel').children]
+    const posicaoDe = (predicado) => filhos.findIndex(predicado)
+
+    const titulo = posicaoDe((n) => n.classList.contains('secao__titulo'))
+    const nome = posicaoDe((n) => n.contains(screen.getByText(repos[0].nome)))
+    const trilho = posicaoDe((n) => n.classList.contains('carrossel__trilho'))
+    const texto = posicaoDe((n) => n.contains(screen.getByText(repos[0].texto)))
+
+    expect(titulo).toBeGreaterThanOrEqual(0)
+    expect(titulo).toBeLessThan(nome)
+    expect(nome).toBeLessThan(trilho)
+    expect(trilho).toBeLessThan(texto)
   })
 
   it('troca o nome e o texto quando o autoplay avanca', () => {
@@ -86,14 +105,15 @@ describe('Carrossel', () => {
 
   it('anuncia a mudanca de slide para leitores de tela sem remontar a regiao viva', () => {
     const { container } = montar()
-    const regiao = container.querySelector('[aria-live="polite"]')
-    expect(regiao).toBeInTheDocument()
+    const antes = [...container.querySelectorAll('[aria-live="polite"]')]
+    expect(antes).toHaveLength(2)
 
     act(() => vi.advanceTimersByTime(12000))
 
     // Se a regiao viva remontar quando o slide troca, o leitor de tela nao
-    // anuncia nada — precisa ser o mesmo no do DOM antes e depois.
-    expect(container.querySelector('[aria-live="polite"]')).toBe(regiao)
+    // anuncia nada — precisam ser os mesmos nos do DOM antes e depois. So o
+    // <p> interno remonta, para reiniciar o crossfade.
+    expect([...container.querySelectorAll('[aria-live="polite"]')]).toEqual(antes)
   })
 })
 
@@ -134,6 +154,10 @@ describe('Carrossel — contrato de CSS do trilho', () => {
       )
       expect(css).toMatch(regra)
     }
+  })
+
+  it('o nome do projeto fica centrado na tela', () => {
+    expect(blocoDoSeletor('.carrossel__nome')).toMatch(/text-align:\s*center/)
   })
 
   it('corta o sangramento do trilho sem criar barra de rolagem', () => {

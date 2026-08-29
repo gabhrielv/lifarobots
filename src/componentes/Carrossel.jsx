@@ -32,6 +32,17 @@ export default function Carrossel({ secao, slides }) {
     <section className="secao carrossel" id={secao.id} aria-labelledby={idTitulo}>
       <h2 className="secao__titulo" id={idTitulo}>{secao.titulo}</h2>
 
+      {/* O nome do projeto fica entre o titulo e a imagem, e por isso nao
+          cabe na mesma regiao viva da descricao, que fica abaixo do trilho.
+          Cada um anuncia a propria troca, na ordem do DOM: sem o nome numa
+          regiao viva, o leitor de tela leria a descricao de um projeto sem
+          dizer de qual projeto se trata. */}
+      <div className="carrossel__projeto" aria-live="polite">
+        <p className="carrossel__nome" key={`${slides[indice].id}-nome`}>
+          {slides[indice].nome}
+        </p>
+      </div>
+
       <div
         className="carrossel__trilho"
         role="group"
@@ -70,12 +81,6 @@ export default function Carrossel({ secao, slides }) {
           leitor de tela nao anuncia a troca. So o <p> interno remonta,
           para reiniciar o crossfade. */}
       <div className="carrossel__anuncio" aria-live="polite">
-        {/* Nome e descricao dividem a regiao viva: anunciar a descricao
-            sozinha nao diria de que projeto ela fala. Cada um remonta pela
-            propria key, para o crossfade reiniciar nos dois. */}
-        <p className="carrossel__nome" key={`${slides[indice].id}-nome`}>
-          {slides[indice].nome}
-        </p>
         <p className="carrossel__texto" key={slides[indice].id}>
           {slides[indice].texto}
         </p>
