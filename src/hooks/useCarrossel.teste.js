@@ -68,6 +68,14 @@ describe('useCarrossel — dwell do hover lateral', () => {
     act(() => vi.advanceTimersByTime(250))
     expect(result.current.indice).toBe(2)
   })
+
+  it('retomar cancela um dwell pendente', () => {
+    const { result } = renderHook(() => useCarrossel(4))
+    act(() => result.current.aoEntrarLateral(2))
+    act(() => result.current.retomar())
+    act(() => vi.advanceTimersByTime(250))
+    expect(result.current.indice).toBe(0)
+  })
 })
 
 describe('useCarrossel — navegacao direta', () => {

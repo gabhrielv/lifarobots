@@ -23,34 +23,40 @@ export function useCarrossel(total) {
     [total],
   )
 
-  const limparRetomada = () => {
+  const limparRetomada = useCallback(() => {
     clearTimeout(tempoRetomada.current)
     tempoRetomada.current = null
-  }
+  }, [])
+
+  const limparDwell = useCallback(() => {
+    clearTimeout(tempoDwell.current)
+    tempoDwell.current = null
+  }, [])
 
   const pausar = useCallback(() => {
     limparRetomada()
     setPausado(true)
-  }, [])
+  }, [limparRetomada])
 
   const retomar = useCallback(() => {
     limparRetomada()
+    // Sair do carrossel tambem cancela um dwell pendente. Sem isso o
+    // carrossel avancaria para um slide que o ponteiro ja deixou — o
+    // oposto do que o dwell existe para evitar.
+    limparDwell()
     tempoRetomada.current = setTimeout(() => setPausado(false), RETOMADA)
-  }, [])
+  }, [limparRetomada, limparDwell])
 
   const aoEntrarLateral = useCallback(
     (alvo) => {
       pausar()
-      clearTimeout(tempoDwell.current)
+      limparDwell()
       tempoDwell.current = setTimeout(() => irPara(alvo), DWELL)
     },
-    [irPara, pausar],
+    [irPara, pausar, limparDwell],
   )
 
-  const aoSairLateral = useCallback(() => {
-    clearTimeout(tempoDwell.current)
-    tempoDwell.current = null
-  }, [])
+  const aoSairLateral = limparDwell
 
   useEffect(() => {
     if (pausado || movimentoReduzido || total <= 1) return
