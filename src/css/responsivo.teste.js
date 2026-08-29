@@ -24,7 +24,14 @@ describe('movimento reduzido', () => {
 
 describe('regra de contraste', () => {
   it('nenhuma cor literal escapou dos tokens', () => {
-    const literais = css.match(/(?<!-)#[0-9a-fA-F]{3,8}\b|\brgba?\(/g) ?? []
+    // hsl/hsla e as cores nomeadas mais plausiveis num design monocromatico
+    // tambem contam como cor literal. `transparent` fica de fora: e uma
+    // palavra-chave, nao uma cor, e e usada legitimamente no arquivo.
+    // `grayscale(` nao bate com `\bgray\b` — nao ha fronteira de palavra
+    // entre "gray" e "scale".
+    const literais = css.match(
+      /(?<!-)#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(|\b(?:black|white|gray|grey|silver)\b/g,
+    ) ?? []
     expect(literais).toEqual([])
   })
 })
