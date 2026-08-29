@@ -1,16 +1,13 @@
+import { useRef } from 'react'
+
 /** Abaixo disso e um toque, nao um deslize. Sem esse piso, encostar na
  *  tela para pausar o carrossel ja o faria avancar. */
 const DISTANCIA_MINIMA = 48
 
 /** Manipuladores de toque para navegar o carrossel no celular, onde
- *  hover nao existe.
- *
- *  O hook nao guarda estado do React, so uma ref — por isso usa um
- *  objeto mutavel simples em vez de `useRef`: `useRef` exige um
- *  componente em renderizacao para existir, o que impediria testar os
- *  manipuladores chamando o hook direto, sem renderizar. */
+ *  hover nao existe. */
 export function useDeslize({ aoEsquerda, aoDireita }) {
-  const inicio = { current: null }
+  const inicio = useRef(null)
 
   return {
     onTouchStart: (evento) => {
