@@ -186,8 +186,13 @@
 /* ── Carrossel ──────────────────────────────────────────── */
 
 .carrossel {
-  /* O trilho sangra alem da largura do conteudo, como no mockup. */
+  /* O trilho sangra alem da largura do conteudo, como no mockup.
+     `clip` corta o sangramento sem criar barra de rolagem — `hidden`
+     funcionaria mas transformaria a secao em contexto de rolagem, o
+     que atrapalha a ancoragem por scroll-margin-top. */
   max-width: none;
+  padding-inline: 0;
+  overflow-x: clip;
 }
 
 .carrossel__trilho {
@@ -263,18 +268,25 @@
   opacity: 1;
 }
 
-/* Fora de tela: existem so para o slide que entra nao piscar. */
+/* O flex posiciona na ordem do DOM, nao na ordem logica. Sem `order`,
+   o slide de posicao -1 renderiza por ultimo, na direita. */
+.slide[data-posicao="-2"] { order: -2; }
+.slide[data-posicao="-1"] { order: -1; }
+.slide[data-posicao="0"]  { order: 0; }
+.slide[data-posicao="1"]  { order: 1; }
+.slide[data-posicao="2"]  { order: 2; }
+
+/* Fora de tela: permanecem NO FLUXO com largura zero, para que a
+   entrada seja um crescimento animado em vez de um salto. `position`
+   nao e interpolavel — alternar absolute/relative faria o slide
+   aparecer instantaneamente no lugar. Largura e interpolavel. */
 .slide[data-posicao="-2"],
 .slide[data-posicao="2"] {
-  position: absolute;
-  width: clamp(140px, 22vw, 320px);
+  width: 0;
   aspect-ratio: 4 / 3;
   opacity: 0;
   pointer-events: none;
 }
-
-.slide[data-posicao="-2"] { right: 100%; }
-.slide[data-posicao="2"]  { left: 100%; }
 
 .carrossel__texto {
   max-width: var(--medida);
