@@ -4,11 +4,13 @@ export default function Hero({ itens, hero, marca, refSentinela }) {
   return (
     <div className="hero">
       <div className="hero__marca">
-        <img
-          className="hero__logo"
-          src={caminho('logo-lifarobots.png')}
-          alt={marca.logoAlt}
-        />
+        <h1 className="hero__titulo">
+          <img
+            className="hero__logo"
+            src={caminho('logo-lifarobots.png')}
+            alt={marca.logoAlt}
+          />
+        </h1>
         <nav className="hero__nav">
           <ul className="hero__lista">
             {itens.map((item) => (

@@ -78,13 +78,31 @@
   padding: clamp(32px, 6vh, 72px) var(--goteira);
 }
 
+.hero__titulo {
+  /* <h1> traz margem e tamanho de fonte por padrao — aqui ele so existe
+     para dar a pagina seu titulo principal, o visual continua sendo o
+     da imagem interna, entao ambos sao neutralizados. */
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 .hero__logo {
   width: min(92%, 1200px);
   margin: 0 auto;
   height: auto;
-  /* A logo vem de um recorte binarizado: escalar sem suavizacao
-     preserva a trama de pontos da LedLite. */
-  image-rendering: pixelated;
+}
+
+/* A logo vem de um recorte binarizado: escalar sem suavizacao preserva a
+   trama de pontos da LedLite, mas so quando a imagem esta de fato sendo
+   ampliada (acima da largura intrinseca de 1200px) — abaixo disso,
+   "pixelated" faz o navegador descartar linhas e colunas ao reduzir,
+   destruindo a mesma trama que deveria preservar. */
+
+@media (min-width: 1300px) {
+  .hero__logo {
+    image-rendering: pixelated;
+  }
 }
 
 .hero__lista {

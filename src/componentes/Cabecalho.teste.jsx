@@ -13,8 +13,8 @@ describe('Cabecalho', () => {
 
   it('cada link aponta para a ancora da sua secao', () => {
     render(<Cabecalho itens={site.nav} visivel marca={site.marca} />)
-    expect(screen.getByRole('link', { name: '[SOBRE]' }))
-      .toHaveAttribute('href', '#sobre')
+    expect(screen.getByRole('link', { name: site.nav[0].rotulo }))
+      .toHaveAttribute('href', `#${site.nav[0].id}`)
   })
 
   it('divide os links em dois lados, com o morcego no meio', () => {
