@@ -34,10 +34,15 @@ describe('site.json', () => {
     }
   })
 
-  it('o rodape usa placeholder em todo valor, conforme pedido', () => {
+  it('todo campo do rodape tem um valor nao vazio', () => {
+    // Os valores sao "placeholder" hoje, a pedido do cliente — mas o dia em
+    // que alguem preencher um endereco real e exatamente o dia em que uma
+    // asercao presa ao literal "placeholder" quebra apontando para o lugar
+    // errado. O contrato que importa e so este: nunca vazio.
     expect(site.rodape.campos.length).toBeGreaterThan(0)
     for (const campo of site.rodape.campos) {
-      expect(campo.valor).toBe('placeholder')
+      expect(typeof campo.valor).toBe('string')
+      expect(campo.valor.length).toBeGreaterThan(0)
     }
   })
 
@@ -49,6 +54,25 @@ describe('site.json', () => {
       site.rodape.id,
     ]
     expect(ids.sort()).toEqual(site.nav.map((i) => i.id).sort())
+  })
+
+  it('os titulos das quatro secoes nao ficam vazios', () => {
+    // Cada um destes vira um <h2>, e tres tambem sao referenciados por
+    // aria-labelledby ou usados como aria-label de grupo. `getByRole` com
+    // `name: undefined` ignora o filtro de nome inteiramente — um titulo
+    // apagado do JSON passaria pelos testes de componente sem ser notado,
+    // deixando cabecalhos vazios e ponteiros aria-labelledby quebrados.
+    // A guarda de verdade precisa estar aqui, contra o dado bruto.
+    const titulos = [
+      site.sobre.titulo,
+      site.secoes.repositorio.titulo,
+      site.secoes.equipe.titulo,
+      site.rodape.titulo,
+    ]
+    for (const titulo of titulos) {
+      expect(typeof titulo).toBe('string')
+      expect(titulo.length).toBeGreaterThan(0)
+    }
   })
 
   it('a secao equipe tem os campos de formato da aba e da especialidade', () => {
@@ -103,5 +127,14 @@ describe('equipe.json', () => {
     for (const grupo of equipe) {
       expect(grupo.area.toLowerCase()).not.toBe('todos')
     }
+  })
+
+  it('nenhuma area se repete', () => {
+    // `extrairAreas` nao deduplica, e o resultado alimenta `key={nome}` e o
+    // rotulo do botao de filtro. Uma equipe que divide uma area em dois
+    // blocos do JSON — uma edicao natural — produziria chaves React
+    // duplicadas e dois botoes identicos, ambos "pressionados" juntos.
+    const nomes = equipe.map((grupo) => grupo.area)
+    expect(new Set(nomes).size).toBe(nomes.length)
   })
 })

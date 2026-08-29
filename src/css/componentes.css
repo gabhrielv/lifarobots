@@ -181,6 +181,10 @@
   font-family: var(--fonte-utilitaria);
   font-size: 0.875rem;
   color: var(--papel);
+  /* Martian Mono e larga e monoespacada; sem isso, um valor real e
+     longo (um e-mail, por exemplo) nao tem onde quebrar e estoura a
+     faixa da grade, rolando a pagina para os lados. */
+  overflow-wrap: anywhere;
 }
 
 /* ── Carrossel ──────────────────────────────────────────── */
@@ -296,6 +300,7 @@
   line-height: 1.55;
   color: var(--tela-70);
   animation: aparecer var(--t-crossfade) ease;
+  overflow-wrap: anywhere;
 }
 
 @keyframes aparecer {
@@ -380,6 +385,7 @@
   font-family: var(--fonte-utilitaria);
   font-size: 0.6875rem;
   color: var(--tela-52);
+  overflow-wrap: anywhere;
 }
 
 /* ── Tablet ─────────────────────────────────────────────── */
