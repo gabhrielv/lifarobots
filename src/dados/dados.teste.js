@@ -19,6 +19,13 @@ describe('site.json', () => {
     expect(site.hero.alt).toBeTruthy()
   })
 
+  it('a marca tem alt para a logo e para o morcego, ambos strings nao vazias', () => {
+    expect(typeof site.marca.logoAlt).toBe('string')
+    expect(site.marca.logoAlt.length).toBeGreaterThan(0)
+    expect(typeof site.marca.morcegoAlt).toBe('string')
+    expect(site.marca.morcegoAlt.length).toBeGreaterThan(0)
+  })
+
   it('a secao sobre tem ao menos um paragrafo', () => {
     expect(site.sobre.paragrafos.length).toBeGreaterThan(0)
     for (const p of site.sobre.paragrafos) {

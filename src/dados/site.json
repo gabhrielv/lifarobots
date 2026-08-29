@@ -5,6 +5,10 @@
     { "id": "equipe",      "rotulo": "[EQUIPE]" },
     { "id": "contato",     "rotulo": "[CONTATO]" }
   ],
+  "marca": {
+    "logoAlt": "LIFAROBOTS",
+    "morcegoAlt": "Morcego, símbolo do LIFAROBOTS"
+  },
   "hero": {
     "imagem": "img/hero.svg",
     "alt": "[[LACUNA: descrever a foto do hero]]"

@@ -1,13 +1,13 @@
 import { caminho } from '../lib/caminho.js'
 
-export default function Hero({ itens, hero, refSentinela }) {
+export default function Hero({ itens, hero, marca, refSentinela }) {
   return (
     <div className="hero">
       <div className="hero__marca">
         <img
           className="hero__logo"
           src={caminho('logo-lifarobots.png')}
-          alt="LIFAROBOTS"
+          alt={marca.logoAlt}
         />
         <nav className="hero__nav">
           <ul className="hero__lista">

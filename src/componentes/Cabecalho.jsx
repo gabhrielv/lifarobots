@@ -2,7 +2,7 @@ const MEIO = 2
 
 import { caminho } from '../lib/caminho.js'
 
-export default function Cabecalho({ itens, visivel }) {
+export default function Cabecalho({ itens, visivel, marca }) {
   const esquerda = itens.slice(0, MEIO)
   const direita = itens.slice(MEIO)
 
@@ -25,7 +25,7 @@ export default function Cabecalho({ itens, visivel }) {
         <img
           className="cabecalho__marca"
           src={caminho('morcego.svg')}
-          alt="Morcego, símbolo do LIFAROBOTS"
+          alt={marca.morcegoAlt}
         />
 
         <ul className="cabecalho__lado">

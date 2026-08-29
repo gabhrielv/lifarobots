@@ -98,6 +98,7 @@
 }
 
 .hero__figura {
+  position: relative;
   flex: 1;
   min-height: 42vh;
   margin: 0;
@@ -105,6 +106,8 @@
 }
 
 .hero__foto {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

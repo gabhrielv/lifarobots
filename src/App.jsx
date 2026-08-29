@@ -10,9 +10,9 @@ export default function App() {
 
   return (
     <>
-      <Cabecalho itens={site.nav} visivel={passouDoHero} />
+      <Cabecalho itens={site.nav} visivel={passouDoHero} marca={site.marca} />
       <main>
-        <Hero itens={site.nav} hero={site.hero} refSentinela={sentinela} />
+        <Hero itens={site.nav} hero={site.hero} marca={site.marca} refSentinela={sentinela} />
       </main>
     </>
   )
