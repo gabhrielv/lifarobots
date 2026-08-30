@@ -19,7 +19,7 @@
     { "id": "vinicius-soldati", "nome": "Vinicius Soldati", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/vinicius-soldati.jpg" },
     { "id": "bernardo-peccini", "nome": "Bernardo Peccini", "areas": ["PROGRAMAÇÃO EMBARCADA"], "foto": "img/equipe/bernardo-peccini.jpg" },
 
-    { "id": "gabhriel", "nome": "Gabhriel", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/gabhriel.jpg" },
+    { "id": "gabhriel", "nome": "Gabhriel Velasco", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/gabhriel.jpg" },
     { "id": "davi-grossi", "nome": "Davi Grossi", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/davi-grossi.jpg" },
 
     { "id": "gustavo-rosa", "nome": "Gustavo O. Rosa", "areas": ["QUANTUM & MACHINE LEARNING", "SIMULAÇÃO"], "foto": "img/equipe/gustavo-rosa.jpg" },
@@ -36,13 +36,13 @@
     { "id": "luis", "nome": "Luiz Antonio", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/luis.jpg" },
     { "id": "pifano", "nome": "Luís F. Pifano", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/pifano.jpg" },
 
-    { "id": "vitoria", "nome": "Vitória", "areas": ["PEDAGOGIA"], "foto": "img/equipe/vitoria.jpg" },
+    { "id": "vitoria", "nome": "Vitória Fernanda", "areas": ["PEDAGOGIA"], "foto": "img/equipe/vitoria.jpg" },
     { "id": "luiza-colucci", "nome": "Luiza Colucci", "areas": ["PEDAGOGIA"], "foto": "img/equipe/luiza-colucci.jpg" },
     { "id": "heitor-silveira", "nome": "Heitor Silveira", "areas": ["PEDAGOGIA"], "foto": "img/equipe/heitor-silveira.jpg" },
     { "id": "matheus-bersan", "nome": "Matheus Bersan", "areas": ["PEDAGOGIA"], "foto": "img/equipe/matheus-bersan.jpg" },
 
     { "id": "mariana-gomes", "nome": "Mariana Gomes", "areas": ["MARKETING"], "foto": "img/equipe/mariana-gomes.jpg" },
-    { "id": "tiaguera", "nome": "Tiaguera", "areas": ["MARKETING"], "foto": "img/equipe/tiaguera.svg" },
+    { "id": "tiaguera", "nome": "Tiago Bon", "areas": ["MARKETING"], "foto": "img/equipe/tiaguera.svg" },
     { "id": "leticia-ribeiro", "nome": "Letícia Ribeiro", "areas": ["MARKETING"], "foto": "img/equipe/leticia-ribeiro.jpg" }
   ]
 }
