@@ -194,6 +194,21 @@
   color: var(--tela-52);
 }
 
+.rodape__elo {
+  color: inherit;
+  text-decoration: none;
+  /* Sublinhado proprio, com folga: `text-decoration` encosta na letra e
+     some entre os tracos da Martian Mono. */
+  border-bottom: 1px solid var(--tela-38);
+  padding-bottom: 2px;
+  transition: border-color var(--t-nav) ease;
+}
+
+.rodape__elo:hover,
+.rodape__elo:focus-visible {
+  border-bottom-color: var(--papel);
+}
+
 .rodape__valor {
   margin: 8px 0 0;
   font-family: var(--fonte-utilitaria);

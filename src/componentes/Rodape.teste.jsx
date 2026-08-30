@@ -19,6 +19,25 @@ describe('Rodape', () => {
     }
   })
 
+  it('so vira link o campo que tem url, e o link aponta para ela', () => {
+    // A localizacao nao tem para onde apontar e continua texto; os perfis
+    // chegam como URL e precisam ser clicaveis — um endereco escrito por
+    // extenso que nao leva a lugar nenhum e o pior dos dois mundos.
+    const { container } = render(<Rodape rodape={site.rodape} />)
+    const elementosCampo = container.querySelectorAll('.rodape__campo')
+    site.rodape.campos.forEach((campo, i) => {
+      const elo = within(elementosCampo[i]).queryByRole('link')
+      if (!campo.url) {
+        expect(elo).toBeNull()
+        return
+      }
+      expect(elo).toHaveAttribute('href', campo.url)
+      expect(elo).toHaveTextContent(campo.valor)
+      // Sem noreferrer, a pagina aberta em outra aba herda window.opener.
+      expect(elo).toHaveAttribute('rel', expect.stringContaining('noreferrer'))
+    })
+  })
+
   it('mostra o valor de cada campo vindo do JSON', () => {
     const { container } = render(<Rodape rodape={site.rodape} />)
     // Cada campo.valor e verificado dentro do seu proprio .rodape__campo,

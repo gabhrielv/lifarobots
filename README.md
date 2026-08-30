@@ -19,8 +19,11 @@ npm run dev
 | `repos.json` | Slides do carrossel |
 | `equipe.json` | Áreas (na ordem das abas) e integrantes |
 
-Os textos marcados com `[[LACUNA: ...]]` ainda precisam ser preenchidos.
-Substitua o marcador inteiro, colchetes inclusive.
+Os marcadores `[[LACUNA: ...]]` já saíram: o texto real entrou. O que ainda é
+provisório são as **imagens** do carrossel — os nove slides usam placeholders
+`repo-NN.svg` até as fotos dos projetos chegarem (veja *Trocar as imagens*).
+Ao trocar a imagem, troque também o `alt`, que hoje descreve o espaço
+reservado, não a foto.
 
 Em `equipe.json`, a lista `areas` no topo define a ordem das abas do filtro,
 e `pessoas` lista a equipe. Uma pessoa pode pertencer a mais de uma área —
@@ -41,6 +44,19 @@ Cada item de `repos.json` tem `nome` (o nome do projeto, exibido abaixo da
 imagem) e `texto` (a descrição, abaixo do nome). O campo `url` está
 reservado para um link futuro do slide para o repositório — hoje ele **não é
 renderizado**; preenchê-lo não tem efeito nenhum no site.
+
+Um slide novo precisa da imagem correspondente em `public/img/`. Enquanto
+ela não chega, o placeholder sai de `ferramentas/gerar-assets.py`: aumente
+`TOTAL_REPOS` e rode o script.
+
+No rodapé, cada campo tem `rotulo` e `valor`; o `url` é opcional e, quando
+existe, transforma o valor em link que abre em outra aba. A localização não
+tem `url` e continua texto puro:
+
+```json
+{ "rotulo": "GITHUB", "valor": "github.com/lifarobots",
+  "url": "https://github.com/lifarobots" }
+```
 
 ## Trocar as imagens
 

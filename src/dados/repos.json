@@ -2,33 +2,73 @@
   {
     "id": "repo-01",
     "imagem": "img/repo-01.svg",
-    "alt": "[[LACUNA: descrever a imagem do repositório 01]]",
-    "nome": "placeholder",
-    "texto": "[[LACUNA: descrição do repositório 01 — o que faz, que problema resolve, que tecnologias usa]]",
+    "alt": "Espaço reservado para a foto do projeto BETTI",
+    "nome": "BETTI",
+    "texto": "Better Eletronic Torque Telemetry Inteligence. Desenvolvida para suprir a demanda por ensaios precisos e acessíveis, a BETTI é uma solução universal e autocalibrável voltada à caracterização de torque em motores robóticos. A tecnologia alia baixo custo e versatilidade ao mapear curvas de desempenho com exatidão, maximizando a eficiência de algoritmos de controle com alto potencial de escalabilidade para o mercado. Atualmente em estágio de protótipo funcional, o sistema passa pela validação de sua metodologia de calibração em bancada.",
     "url": null
   },
   {
     "id": "repo-02",
     "imagem": "img/repo-02.svg",
-    "alt": "[[LACUNA: descrever a imagem do repositório 02]]",
-    "nome": "placeholder",
-    "texto": "[[LACUNA: descrição do repositório 02 — o que faz, que problema resolve, que tecnologias usa]]",
+    "alt": "Espaço reservado para a foto do Telescópio 3D Educacional",
+    "nome": "Telescópio 3D Educacional",
+    "texto": "Desenvolvido para democratizar a instrumentação científica, este projeto consiste em um telescópio Newtoniano de arquitetura aberta, fabricado predominantemente por manufatura aditiva. A solução une alta acessibilidade, reprodutibilidade e fins educacionais ao integrar um guia visual iterativo de colimação e alinhamento de precisão. O sistema encontra-se atualmente em fase de validação óptica em bancada, refinando a estabilidade mecânica dos suportes para garantir imagens nítidas com componentes de baixo custo.",
     "url": null
   },
   {
     "id": "repo-03",
     "imagem": "img/repo-03.svg",
-    "alt": "[[LACUNA: descrever a imagem do repositório 03]]",
-    "nome": "placeholder",
-    "texto": "[[LACUNA: descrição do repositório 03 — o que faz, que problema resolve, que tecnologias usa]]",
+    "alt": "Espaço reservado para a imagem da Simulação de Dinâmica Celular Multi-Escala",
+    "nome": "Simulação de Dinâmica Celular Multi-Escala",
+    "texto": "Ambiente computacional avançado para modelagem de dinâmicas celulares e teciduais complexas com alto rigor de validação internacional. A tecnologia viabiliza a exploração de novos parâmetros biofísicos e direciona análises para regiões críticas de resposta mecânica. Atualmente em fase de expansão para múltiplos arranjos celulares, o sistema impulsiona o desenvolvimento de pesquisa biomédica e biofísica computacional de alta performance.",
     "url": null
   },
   {
     "id": "repo-04",
     "imagem": "img/repo-04.svg",
-    "alt": "[[LACUNA: descrever a imagem do repositório 04]]",
-    "nome": "placeholder",
-    "texto": "[[LACUNA: descrição do repositório 04 — o que faz, que problema resolve, que tecnologias usa]]",
+    "alt": "Espaço reservado para a foto da Bioprinter & Biocam",
+    "nome": "Bioprinter & Biocam",
+    "texto": "Plataforma de bioimpressão automatizada desenvolvida para fabricação de estruturas biológicas com alta precisão e custo reduzido frente às soluções convencionais de mercado. Integrando uma estação com microscopia acoplada para monitoramento contínuo e análise de imagens em tempo real durante a conformação tecidual, o sistema garante rigoroso controle de qualidade operacional. Atualmente em fase de desenvolvimento e validação dos primeiros protótipos funcionais, o projeto democratiza a bioengenharia avançada para pesquisa médica e cultivo celular.",
+    "url": null
+  },
+  {
+    "id": "repo-05",
+    "imagem": "img/repo-05.svg",
+    "alt": "Espaço reservado para a imagem da Iniciativa Rodeo",
+    "nome": "Quantum & Machine Learning — Iniciativa Rodeo",
+    "texto": "Frente de pesquisa científica focada no desenvolvimento e aplicação de algoritmos quânticos e aprendizado de máquina híbrido para superar limitações clássicas de precisão e eficiência computacional. A iniciativa cria técnicas proprietárias capazes de entregar alto desempenho mesmo simuladas em arquiteturas convencionais, potencializando a resolução de problemas complexos. Abrangendo desde a formulação teórica até a validação prática em desafios específicos, a divisão consolida a vanguarda científica e a capacidade de inovação tecnológica.",
+    "url": null
+  },
+  {
+    "id": "repo-06",
+    "imagem": "img/repo-06.svg",
+    "alt": "Espaço reservado para a foto do Sistema de Monitoramento Térmico",
+    "nome": "Sistema de Monitoramento Térmico",
+    "texto": "O Sistema de Monitoramento Térmico é uma solução autônoma desenvolvida para telemetria contínua de temperatura em múltiplos pontos simultaneamente. Com integração via internet para supervisão remota em tempo real, a tecnologia se destaca pelo baixo custo de implementação e pela arquitetura flexível, facilmente adaptável a diversas demandas operacionais. Com a eletrônica completamente desenvolvida e validada com sucesso em testes de bancada, a plataforma está pronta para integração em novos projetos de engenharia e robótica.",
+    "url": null
+  },
+  {
+    "id": "repo-07",
+    "imagem": "img/repo-07.svg",
+    "alt": "Espaço reservado para a foto do robô Dark Knight",
+    "nome": "Dark Knight (DK)",
+    "texto": "O Dark Knight é um robô de sumô autônomo de 500g projetado para entregar máxima performance competitiva na arena. O projeto combina uma estrutura de alta resistência mecânica a componentes eletrônicos selecionados meticulosamente, assegurando sinergia operacional superior, rápida resposta e robustez contra impactos severos. Atualmente em fase avançada de testes em bancada e ajustes dinâmicos, o protótipo valida sistemas embarcados de alta precisão para consolidar a competitividade da equipe no cenário tecnológico.",
+    "url": null
+  },
+  {
+    "id": "repo-08",
+    "imagem": "img/repo-08.svg",
+    "alt": "Espaço reservado para a foto do Drone Autônomo de Competição",
+    "nome": "Drone Autônomo de Competição",
+    "texto": "O projeto desenvolve um quadricóptero autônomo de alta performance projetado integralmente pela equipe para competições de robótica aérea. Com arquitetura proprietária de hardware, eletrônica dedicada e controle de estabilização customizado, a plataforma garante máxima sintonia operacional, versatilidade e superioridade competitiva em manobras complexas. Atualmente em fase conceitual com as primeiras simulações dinâmicas em andamento, a iniciativa irá consolidar a expertise do laboratório no desenvolvimento de sistemas aéreos não tripulados avançados.",
+    "url": null
+  },
+  {
+    "id": "repo-09",
+    "imagem": "img/repo-09.svg",
+    "alt": "Espaço reservado para a imagem da Mesa Óptica Virtual",
+    "nome": "Mesa Óptica Virtual",
+    "texto": "Ambiente computacional voltado à simulação e validação de circuitos ópticos em laboratório, projetado para acelerar o treinamento técnico e otimizar o tempo de bancada. Com alto nível de flexibilidade e escalabilidade, a solução permite testar configurações experimentais sem custos adicionais de maquinário físico. Atualmente em fase de pesquisa contínua e expansão científica, o projeto integra o portfólio de inovação aplicada, pavimentando o avanço para modelagens avançadas e aplicações de fronteira.",
     "url": null
   }
 ]

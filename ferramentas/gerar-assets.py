@@ -22,6 +22,11 @@ EQUIPE = IMAGENS / "equipe"
 # esta commitado continua valendo.
 FOTOS = RAIZ / "Foto oficial do membro  (File responses)"
 
+# Um placeholder por slide de src/dados/repos.json. Os dois numeros andam
+# juntos: um slide sem imagem quebra o teste de dados, e um placeholder a
+# mais fica orfao em public/img.
+TOTAL_REPOS = 9
+
 LADO_RETRATO = 800
 QUALIDADE_RETRATO = 82
 
@@ -283,7 +288,7 @@ def main() -> None:
 
     # O hero.svg generico saiu junto com o placeholder: ha foto de verdade.
     gerar_hero()
-    for n in range(1, 5):
+    for n in range(1, TOTAL_REPOS + 1):
         gerar_placeholder(IMAGENS / f"repo-{n:02d}.svg", 1600, 900, f"REPO {n:02d}")
 
     # Os antigos equipe-NN.svg genericos sairam de cena: cada pessoa agora

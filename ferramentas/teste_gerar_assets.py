@@ -102,7 +102,10 @@ def teste_morcego_e_vetor_branco_sem_fundo():
 def teste_placeholders_foram_gerados():
     gerar()
     img = RAIZ / "public" / "img"
-    assert len(list(img.glob("repo-*.svg"))) == 4
+    # O numero e literal de proposito: ler TOTAL_REPOS do gerador faria o
+    # teste concordar com o script em vez de com src/dados/repos.json, que
+    # e quem define quantos slides existem.
+    assert len(list(img.glob("repo-*.svg"))) == 9
 
     # Dois placeholders foram aposentados quando entrou conteudo de verdade:
     # os equipe-NN.svg, quando a grade ganhou gente, e o hero.svg, quando

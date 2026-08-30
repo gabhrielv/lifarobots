@@ -17,9 +17,10 @@
     "id": "sobre",
     "titulo": "SOBRE",
     "paragrafos": [
-      "O LIFAROBOTS é [[LACUNA: o que a sigla LIFA significa]], uma equipe de robótica de [[LACUNA: instituição]] formada em [[LACUNA: ano de fundação]].",
-      "A equipe projeta e constrói [[LACUNA: que tipos de robô a equipe constrói]], da eletrônica ao firmware, e disputa [[LACUNA: quais competições]].",
-      "[[LACUNA: o que a equipe busca — formação, pesquisa, competição — e o que a torna diferente]]"
+      "O LIFA Robots é o núcleo de robótica do Laboratório de Física Aplicada (LIFA) da UFJF, criado para transformar conhecimento em soluções tecnológicas aplicadas a desafios reais.",
+      "Atuamos no desenvolvimento de projetos em robótica, automação, sistemas embarcados, inteligência artificial, simulação, biotecnologia e tecnologias quânticas, além da prototipagem e desenvolvimento de máquinas e sistemas especializados, reunindo diferentes competências para levar uma ideia do conceito ao protótipo.",
+      "Nossa atuação integra desenvolvimento tecnológico, competição e robótica educacional, conectando universidade, mercado e sociedade.",
+      "Do conceito ao protótipo, do protótipo à solução."
     ]
   },
   "secoes": {
@@ -35,10 +36,10 @@
     "id": "contato",
     "titulo": "CONTATO",
     "campos": [
-      { "rotulo": "E-MAIL",     "valor": "placeholder" },
-      { "rotulo": "INSTAGRAM",  "valor": "placeholder" },
-      { "rotulo": "GITHUB",     "valor": "placeholder" },
-      { "rotulo": "LOCALIZAÇÃO","valor": "placeholder" }
+      { "rotulo": "INSTAGRAM",   "valor": "@lifarobots", "url": "https://www.instagram.com/lifarobots" },
+      { "rotulo": "LINKEDIN",    "valor": "@lifarobots", "url": "https://www.linkedin.com/company/lifarobots/" },
+      { "rotulo": "GITHUB",      "valor": "@lifarobots", "url": "https://github.com/lifarobots" },
+      { "rotulo": "LOCALIZAÇÃO", "valor": "Departamento de Física — UFJF — Juiz de Fora/MG — Brasil" }
     ]
   }
 }
