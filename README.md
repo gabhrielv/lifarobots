@@ -21,7 +21,8 @@ npm run dev
 
 Os marcadores `[[LACUNA: ...]]` já saíram: o texto real entrou. O que ainda é
 provisório são as **imagens** do carrossel — os nove slides usam placeholders
-`repo-NN.svg` até as fotos dos projetos chegarem (veja *Trocar as imagens*).
+`repo-NN.svg`, o morcego da marca sobre o grid, até as fotos dos projetos
+chegarem (veja *Trocar as imagens*).
 Ao trocar a imagem, troque também o `alt`, que hoje descreve o espaço
 reservado, não a foto.
 

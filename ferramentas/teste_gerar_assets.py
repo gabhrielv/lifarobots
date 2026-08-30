@@ -116,9 +116,17 @@ def teste_placeholders_foram_gerados():
     # Cobre o mesmo tipo de checagem de conteudo para um repo-*, para nao
     # depender so da contagem de arquivos.
     repo = (img / "repo-01.svg").read_text()
-    assert "REPO 01" in repo
-    assert "1600" in repo
-    assert "900" in repo
+    assert 'width="1600"' in repo
+    assert 'height="900"' in repo
+
+    # O rotulo "REPO NN" e a dimensao sairam de cena: eram nome de bastidor
+    # exibido em producao. No lugar entrou a silhueta da marca, com os
+    # mesmos tres paths do morcego.svg — se vier menos, o vetor mudou de
+    # forma e o placeholder ficou so com o grid.
+    assert "REPO" not in repo
+    assert repo.count("<path ") == 3
+    assert repo.count('fill="#ffffff"') == 1, "silhueta deveria ser branca"
+    assert repo.count('fill="#000000"') == 2, "os dois olhos deveriam ser pretos"
 
 
 def teste_hero_e_foto_e_nao_placeholder():

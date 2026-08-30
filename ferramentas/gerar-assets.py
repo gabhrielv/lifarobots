@@ -50,8 +50,17 @@ QUALIDADE_HERO = 88
 # Indices dos paths no arquivo original: silhueta e os dois olhos.
 PATH_SILHUETA = 2
 PATHS_OLHOS = (10, 11)
-# Caixa da silhueta medida por renderizacao, com 4px de folga.
-CAIXA_MORCEGO = "178 348 642 258"
+# Caixa da silhueta medida por renderizacao, com 4px de folga: x, y, largura
+# e altura. E tupla, e nao a string do viewBox, porque o placeholder precisa
+# dos numeros para encaixar a silhueta no centro do quadro.
+CAIXA_MORCEGO = (178, 348, 642, 258)
+
+# Quanto da largura do placeholder a silhueta ocupa, e com que forca ela
+# aparece. A fracao e conservadora de proposito: as laterais do carrossel
+# recortam o slide de 16/9 para 4/3, o que come 25% da largura — em 0.56 o
+# morcego continua inteiro no recorte.
+FRACAO_MARCA = 0.56
+OPACIDADE_MARCA = 0.5
 
 
 def binarizar(imagem: Image.Image) -> Image.Image:
@@ -74,23 +83,28 @@ def gerar_logo() -> None:
     binarizar(origem).save(PUBLICO / "logo-lifarobots.png")
 
 
-def gerar_morcego() -> None:
-    """Extrai a silhueta do vetor oficial e a devolve branca, sem fundo.
+def desenho_morcego() -> str:
+    """Os paths da silhueta: branca, com os olhos vazados em preto.
 
-    O arquivo da marca e preto sobre branco e inclui o logotipo. Na nav do
-    site, sobre preto, so a silhueta interessa: ela vira branca e os olhos
-    ficam pretos, casando com o fundo da pagina.
+    O arquivo da marca e preto sobre branco e inclui o logotipo. Onde o
+    morcego aparece — na nav e nos placeholders — o fundo e preto: a
+    silhueta vira branca e os olhos ficam pretos, casando com o fundo.
     """
     fonte = MARCA_VETOR.read_text(encoding="utf-8")
     paths = re.findall(r'<path d="([^"]+)"', fonte)
-    silhueta = paths[PATH_SILHUETA]
     olhos = "".join(
         f'<path fill="#000000" d="{paths[i]}"/>' for i in PATHS_OLHOS
     )
+    return f'<path fill="#ffffff" d="{paths[PATH_SILHUETA]}"/>{olhos}'
+
+
+def gerar_morcego() -> None:
+    """Extrai a silhueta do vetor oficial e a devolve branca, sem fundo."""
+    caixa = " ".join(str(n) for n in CAIXA_MORCEGO)
     (PUBLICO / "morcego.svg").write_text(
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{CAIXA_MORCEGO}" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{caixa}" '
         f'role="img" aria-label="Morcego, simbolo do LIFAROBOTS">'
-        f'<path fill="#ffffff" d="{silhueta}"/>{olhos}</svg>',
+        f'{desenho_morcego()}</svg>',
         encoding="utf-8",
     )
 
@@ -252,13 +266,34 @@ def gerar_iniciais(destino: Path, iniciais: str) -> None:
     )
 
 
-def gerar_placeholder(destino: Path, largura: int, altura: int, rotulo: str) -> None:
-    """Retangulo com grid tecnico, rotulo e dimensao.
+def marca_centrada(largura: int, altura: int) -> str:
+    """A silhueta do morcego encaixada no centro de um quadro qualquer.
+
+    O vetor da marca nao comeca na origem: sua caixa vive em (178, 348) no
+    sistema do arquivo original. Por isso o translate desconta esse canto
+    ja escalado — sem o desconto, a silhueta sai inteira para fora do
+    quadro em vez de aparecer centrada nele.
+    """
+    x, y, w, h = CAIXA_MORCEGO
+    escala = largura * FRACAO_MARCA / w
+    dx = (largura - w * escala) / 2 - x * escala
+    dy = (altura - h * escala) / 2 - y * escala
+    return (
+        f'<g opacity="{OPACIDADE_MARCA}" transform="'
+        f'translate({dx:.1f} {dy:.1f}) scale({escala:.4f})">'
+        f'{desenho_morcego()}</g>'
+    )
+
+
+def gerar_placeholder(destino: Path, largura: int, altura: int) -> None:
+    """Retangulo com grid tecnico e o morcego da marca ao centro.
 
     Deixa explicito que o espaco esta reservado, em vez de parecer defeito.
+    O rotulo "REPO NN" que ficava aqui era linguagem de bastidor: no ar,
+    em producao, o visitante lia o nome interno do arquivo. A silhueta diz
+    a mesma coisa — ainda nao ha foto — sem expor o andaime.
     """
     passo = 40
-    corpo = max(13, largura // 48)
     linhas = [
         f'<line x1="{x}" y1="0" x2="{x}" y2="{altura}" />'
         for x in range(passo, largura, passo)
@@ -273,15 +308,7 @@ def gerar_placeholder(destino: Path, largura: int, altura: int, rotulo: str) -> 
         f'<g stroke="rgba(255,255,255,0.06)" stroke-width="1">{"".join(linhas)}</g>'
         f'<rect x="0.5" y="0.5" width="{largura - 1}" height="{altura - 1}" '
         f'fill="none" stroke="rgba(255,255,255,0.14)"/>'
-        # As duas linhas se afastam em funcao do corpo da fonte, nao de um
-        # valor fixo: com offset fixo o rotulo e a dimensao se sobrepoem
-        # assim que o placeholder passa de ~1300px de largura.
-        f'<text x="{largura / 2}" y="{altura / 2}" fill="rgba(255,255,255,0.52)" '
-        f'font-family="monospace" font-size="{corpo}" '
-        f'letter-spacing="3" text-anchor="middle">{rotulo}</text>'
-        f'<text x="{largura / 2}" y="{altura / 2 + corpo * 1.7}" fill="rgba(255,255,255,0.38)" '
-        f'font-family="monospace" font-size="{corpo * 0.62:.0f}" '
-        f'text-anchor="middle">{largura} × {altura}</text>'
+        f'{marca_centrada(largura, altura)}'
         f'</svg>',
         encoding="utf-8",
     )
@@ -297,7 +324,7 @@ def main() -> None:
     # O hero.svg generico saiu junto com o placeholder: ha foto de verdade.
     gerar_hero()
     for n in range(1, TOTAL_REPOS + 1):
-        gerar_placeholder(IMAGENS / f"repo-{n:02d}.svg", 1600, 900, f"REPO {n:02d}")
+        gerar_placeholder(IMAGENS / f"repo-{n:02d}.svg", 1600, 900)
 
     # Os antigos equipe-NN.svg genericos sairam de cena: cada pessoa agora
     # tem retrato proprio, ou um SVG de iniciais enquanto a foto oficial
