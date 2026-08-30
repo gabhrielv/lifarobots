@@ -34,7 +34,7 @@
 
     { "id": "vinycius", "nome": "Vinycios Moreira", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/vinycius.jpg" },
     { "id": "luis", "nome": "Luiz Antonio", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/luis.jpg" },
-    { "id": "pifano", "nome": "Pifano", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/pifano.jpg" },
+    { "id": "pifano", "nome": "Luís F. Pifano", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/pifano.jpg" },
 
     { "id": "vitoria", "nome": "Vitória", "areas": ["PEDAGOGIA"], "foto": "img/equipe/vitoria.jpg" },
     { "id": "luiza-colucci", "nome": "Luiza Colucci", "areas": ["PEDAGOGIA"], "foto": "img/equipe/luiza-colucci.jpg" },
