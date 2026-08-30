@@ -16,11 +16,16 @@ PUBLICO = RAIZ / "public"
 IMAGENS = PUBLICO / "img"
 EQUIPE = IMAGENS / "equipe"
 
-# Os originais das fotos oficiais (44MB, um deles um PNG de 23MB) ficam fora
-# do git: o entregavel sao os retratos de 800x800 em public/img/equipe/. Se a
-# pasta nao existir nesta maquina, o passo dos retratos e pulado e o que ja
-# esta commitado continua valendo.
-FOTOS = RAIZ / "Foto oficial do membro  (File responses)"
+# Os originais das fotos oficiais ficam fora do git: o entregavel sao os
+# retratos de 800x800 em public/img/equipe/. Se a pasta nao existir nesta
+# maquina, o passo dos retratos e pulado e o que ja esta commitado continua
+# valendo. O nome dela sai do Google Forms e ja chegou de duas formas, com um
+# e com dois espacos antes do parenteses: vale a primeira que existir.
+PASTAS_FOTOS = (
+    RAIZ / "Foto oficial do membro  (File responses)",
+    RAIZ / "Foto oficial do membro (File responses)",
+)
+FOTOS = next((p for p in PASTAS_FOTOS if p.is_dir()), PASTAS_FOTOS[0])
 
 # Um placeholder por slide de src/dados/repos.json. Os dois numeros andam
 # juntos: um slide sem imagem quebra o teste de dados, e um placeholder a
@@ -118,11 +123,16 @@ RETRATOS = {
     "gabhriel": "IMG_6607 - gabhriel.jpeg",
     "davi-grossi": "Capturar - Davi Grossi.JPG",
     "gustavo-rosa": "20260810_161630 - GUSTAVO DE OLIVEIRA ROSA.jpg",
+    "guilherme-camanho": "7bc6f8f2-f99b-45fa-a880-b59877fcfedf - guilherme costa.jpg",
+    "danilo": "1000045006 - Danilo Siervi.jpg",
+    "isabella": "IMG_0606 - Isabella Honório.jpeg",
     "vitor-gabriel": "cfe76005-0d95-4f60-9e39-8f0054c0eb3e - Vitor Gabriel.jpg",
     "lucas-martins": "_MG_0309 - Lmda Martins.JPG",
     "evelyn-queiroz": "20251007_190214 - Evelyn Costa.jpg",
     "adrian-marini": "Foto Oficial Adrian - ADRIAN JOSÉ DA SILVA MARINI PASCHÔA.jpg",
     "pifano": "pifas.jpg",
+    "vinycius": "20260518_162538 - VINYCIOS MOREIRA.jpg",
+    "luis": "20260625_093227 - Luiz Antonio.jpg",
     "vitoria": "IMG_20250706_235355_218 - vitória..webp",
     "luiza-colucci": "IMG-20250207-WA0005 - Luiza Colucci de Castro De Martin.jpg",
     "heitor-silveira": "IMG_20260213_203451033 - Heitor P. Silveira.jpg",
@@ -137,10 +147,10 @@ RETRATOS = {
 # geometrico; centralizar corta a testa e sobra chao.
 FOCO_PADRAO = (0.50, 0.38, 1.0)
 
-# Medidos sobre a imagem ja endireitada. Sao as tres fotos em que o rosto
-# nao domina o quadro: uma de corpo inteiro na frente de um banner e duas
-# de meio corpo com paisagem. Sem o recorte fechado, o retrato de 100px do
-# cartao vira uma mancha.
+# Medidos sobre a imagem ja endireitada. Sao as fotos em que o rosto nao
+# domina o quadro: as de corpo inteiro na frente de um banner e as de meio
+# corpo com paisagem. Sem o recorte fechado, o retrato de 100px do cartao
+# vira uma mancha.
 FOCOS = {
     "lucas-martins": (0.24, 0.395, 0.30),
     # Foto muito alta (627x1398) com o rosto no topo: o padrao, centrado em
@@ -148,16 +158,14 @@ FOCOS = {
     "vitor-gabriel": (0.50, 0.155, 0.69),
     "bernardo-peccini": (0.53, 0.47, 0.70),
     "gustavo-bersan": (0.66, 0.27, 0.62),
+    # Corpo inteiro na frente de um banner de premiacao: no padrao, o
+    # cartao mostraria mais banner que pessoa.
+    "guilherme-camanho": (0.553, 0.448, 0.32),
 }
 
 # Quem ainda nao mandou foto oficial. As iniciais mantem a grade uniforme e
 # deixam claro que o espaco esta reservado, nao quebrado.
 INICIAIS = {
-    "guilherme-camanho": "GC",
-    "danilo": "D",
-    "isabella": "I",
-    "vinycius": "V",
-    "luis": "L",
     "tiaguera": "T",
 }
 
@@ -299,13 +307,25 @@ def main() -> None:
         gerar_iniciais(EQUIPE / f"{pessoa}.svg", iniciais)
 
     if FOTOS.is_dir():
+        # A pasta pode chegar parcial — um download novo so com as fotos
+        # que faltavam, por exemplo. Quem nao tem original nesta maquina e
+        # pulado com aviso, e o retrato ja commitado continua valendo; o
+        # alternativo seria derrubar a geracao inteira dos outros.
+        feitos, pulados = 0, []
         for pessoa, arquivo in RETRATOS.items():
+            origem = FOTOS / arquivo
+            if not origem.is_file():
+                pulados.append(pessoa)
+                continue
             gerar_retrato(
-                FOTOS / arquivo,
+                origem,
                 EQUIPE / f"{pessoa}.jpg",
                 FOCOS.get(pessoa, FOCO_PADRAO),
             )
-        print(f"{len(RETRATOS)} retratos gerados em", EQUIPE)
+            feitos += 1
+        print(f"{feitos} retratos gerados em", EQUIPE)
+        if pulados:
+            print(f"aviso: original ausente, retrato mantido: {', '.join(pulados)}")
     else:
         print(f'aviso: "{FOTOS.name}/" ausente — retratos mantidos como estao')
 

@@ -92,9 +92,14 @@ nos slides do carrossel e nos retratos da equipe.
 ### Fotos da equipe
 
 Os retratos em `public/img/equipe/` são gerados a partir dos originais do
-formulário, que ficam em `Foto oficial do membro  (File responses)/` e
-**não são versionados** (44 MB, um deles um PNG de 23 MB). O que entra no
-git são os 800 × 800 já prontos.
+formulário, que ficam em `Foto oficial do membro (File responses)/` e
+**não são versionados**. O que entra no git são os 800 × 800 já prontos.
+
+O download do Google Forms já veio com uma e com duas grafias do nome da
+pasta — um e dois espaços antes do parêntese. O gerador aceita as duas e usa
+a primeira que encontrar no disco. A pasta também pode chegar parcial, só
+com as fotos que faltavam: quem não tem original nesta máquina é pulado com
+aviso e o retrato já commitado continua valendo.
 
 Para incluir alguém novo:
 

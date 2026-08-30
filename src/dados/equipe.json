@@ -23,17 +23,17 @@
     { "id": "davi-grossi", "nome": "Davi Grossi", "areas": ["PROGRAMAÇÃO WEB"], "foto": "img/equipe/davi-grossi.jpg" },
 
     { "id": "gustavo-rosa", "nome": "Gustavo O. Rosa", "areas": ["QUANTUM & MACHINE LEARNING", "SIMULAÇÃO"], "foto": "img/equipe/gustavo-rosa.jpg" },
-    { "id": "guilherme-camanho", "nome": "Guilherme Camanho", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/guilherme-camanho.svg" },
-    { "id": "danilo", "nome": "Danilo", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/danilo.svg" },
-    { "id": "isabella", "nome": "Isabella", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/isabella.svg" },
+    { "id": "guilherme-camanho", "nome": "Guilherme Camanho", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/guilherme-camanho.jpg" },
+    { "id": "danilo", "nome": "Danilo Siervi", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/danilo.jpg" },
+    { "id": "isabella", "nome": "Isabella Honório", "areas": ["QUANTUM & MACHINE LEARNING"], "foto": "img/equipe/isabella.jpg" },
 
     { "id": "vitor-gabriel", "nome": "Vitor Gabriel", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/vitor-gabriel.jpg" },
     { "id": "lucas-martins", "nome": "Lucas Martins", "areas": ["MODELAGEM E IMPRESSÃO 3D", "PROTOTIPAGEM DE MÁQUINAS"], "foto": "img/equipe/lucas-martins.jpg" },
     { "id": "evelyn-queiroz", "nome": "Evelyn Queiroz", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/evelyn-queiroz.jpg" },
     { "id": "adrian-marini", "nome": "Adrian Marini", "areas": ["MODELAGEM E IMPRESSÃO 3D"], "foto": "img/equipe/adrian-marini.jpg" },
 
-    { "id": "vinycius", "nome": "Vinycius", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/vinycius.svg" },
-    { "id": "luis", "nome": "Luis", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/luis.svg" },
+    { "id": "vinycius", "nome": "Vinycios Moreira", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/vinycius.jpg" },
+    { "id": "luis", "nome": "Luiz Antonio", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/luis.jpg" },
     { "id": "pifano", "nome": "Pifano", "areas": ["SIMULAÇÃO"], "foto": "img/equipe/pifano.jpg" },
 
     { "id": "vitoria", "nome": "Vitória", "areas": ["PEDAGOGIA"], "foto": "img/equipe/vitoria.jpg" },

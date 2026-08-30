@@ -28,6 +28,8 @@ __pycache__
 *.sln
 *.sw?
 
-# Originais das fotos oficiais (44MB). O entregavel sao os retratos de
-# 800x800 em public/img/equipe/, gerados por ferramentas/gerar-assets.py.
+# Originais das fotos oficiais. O entregavel sao os retratos de 800x800 em
+# public/img/equipe/, gerados por ferramentas/gerar-assets.py. As duas
+# grafias do nome ja sairam do Google Forms, com um e com dois espacos.
 Foto oficial do membro  (File responses)/
+Foto oficial do membro (File responses)/
