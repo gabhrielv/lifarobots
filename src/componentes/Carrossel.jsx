@@ -6,8 +6,10 @@ import { posicaoRelativa, POSICOES_VISIVEIS } from '../lib/carrossel.js'
 
 export default function Carrossel({ secao, slides }) {
   const total = slides.length
-  const { indice, irPara, pausar, retomar, aoEntrarLateral, aoSairLateral } =
-    useCarrossel(total)
+  const {
+    indice, irPara, pausar, retomar,
+    aoEntrarLateral, aoSairLateral, aoClicarLateral,
+  } = useCarrossel(total)
   const idTitulo = `${secao.id}-titulo`
 
   const aoTeclar = (evento) => {
@@ -54,6 +56,12 @@ export default function Carrossel({ secao, slides }) {
         onMouseLeave={temHover ? () => { aoSairLateral(); retomar() } : undefined}
         {...deslize}
       >
+        {/* Clicar numa lateral a traz para o centro. O clique mora no
+            <figure> e nao num <button>: as laterais sao aria-hidden, e
+            elemento focavel dentro de conteudo escondido do leitor de tela
+            e armadilha de foco — o Tab para num controle que a leitura nao
+            anuncia. O caminho de teclado ja existe e continua sendo o
+            trilho, que e focavel e responde as setas. */}
         {slides.map((slide, i) => {
           const posicao = posicaoRelativa(i, indice, total)
           if (Math.abs(posicao) > POSICOES_VISIVEIS) return null
@@ -66,6 +74,7 @@ export default function Carrossel({ secao, slides }) {
               data-id={slide.id}
               data-posicao={posicao}
               aria-hidden={eCentro ? 'false' : 'true'}
+              onClick={eCentro ? undefined : () => aoClicarLateral(i)}
               onMouseEnter={eCentro || !temHover ? undefined : () => aoEntrarLateral(i)}
               onMouseLeave={eCentro || !temHover ? undefined : aoSairLateral}
             >

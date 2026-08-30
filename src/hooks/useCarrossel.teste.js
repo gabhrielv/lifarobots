@@ -109,6 +109,32 @@ describe('useCarrossel — dwell do hover lateral', () => {
   })
 })
 
+describe('useCarrossel — clique na lateral', () => {
+  it('centraliza na hora, sem esperar o dwell', () => {
+    const { result } = renderHook(() => useCarrossel(4))
+    act(() => result.current.aoClicarLateral(2))
+    expect(result.current.indice).toBe(2)
+  })
+
+  it('o clique nao estende a janela em que o hover e ignorado', () => {
+    const { result } = renderHook(() => useCarrossel(4))
+
+    // No desktop o ponteiro entra na lateral antes de clicar: quando o
+    // clique chega, o dwell de 250ms ja esta armado.
+    act(() => result.current.aoEntrarLateral(1))
+    act(() => result.current.aoClicarLateral(1))
+
+    // O timer velho nao levaria a lugar errado — ele guarda o indice, e o
+    // clique acabou de mandar para esse mesmo indice. O estrago e outro:
+    // ao disparar em t+250 ele re-armaria a acomodacao ate t+750, e o
+    // hover abaixo, ja fora dos 500ms normais, seria engolido.
+    act(() => vi.advanceTimersByTime(600))
+    act(() => result.current.aoEntrarLateral(2))
+    act(() => vi.advanceTimersByTime(250))
+    expect(result.current.indice).toBe(2)
+  })
+})
+
 describe('useCarrossel — navegacao direta', () => {
   it('irPara normaliza indices fora da faixa', () => {
     const { result } = renderHook(() => useCarrossel(4))

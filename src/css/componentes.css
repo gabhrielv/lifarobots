@@ -475,15 +475,13 @@
   .hero__lista { gap: 20px 28px; }
 
   /* Sem hover no toque: o slide central ocupa quase tudo e sobra
-     uma fresta do proximo, sinalizando que ha mais conteudo.
-     A navegacao fica por conta do deslize. */
+     uma fresta do proximo, sinalizando que ha mais conteudo. A navegacao
+     fica por conta do deslize; tocar na fresta tambem centraliza, mas o
+     alvo e pequeno demais para ser o caminho principal. */
   .slide[data-posicao="0"] { width: 84vw; }
 
   .slide[data-posicao="-1"],
-  .slide[data-posicao="1"] {
-    width: 10vw;
-    cursor: default;
-  }
+  .slide[data-posicao="1"] { width: 10vw; }
 
   .cartao__retrato { width: 84px; }
 }

@@ -94,6 +94,25 @@ export function useCarrossel(total) {
 
   const aoSairLateral = limparDwell
 
+  /** Clique numa lateral: escolha explicita, entao centraliza na hora.
+   *
+   *  O dwell pendente e cancelado antes de avancar. Ele nao levaria a lugar
+   *  errado — guarda o indice do slide, nao um passo, e o clique acabou de
+   *  mandar para esse mesmo indice. O problema e a guarda de acomodacao:
+   *  ao disparar, o timer velho a re-arma por mais 500ms, e nessa janela
+   *  `aoEntrarLateral` ignora hover de verdade. Sem cancelar, um clique
+   *  deixa o carrossel surdo ao ponteiro por 750ms em vez de 500ms.
+   *
+   *  Cancelar depende do clique chegar depois do mouseenter, o que o
+   *  navegador garante; no toque nao ha dwell nenhum para cancelar. */
+  const aoClicarLateral = useCallback(
+    (alvo) => {
+      limparDwell()
+      avancarPara(alvo)
+    },
+    [limparDwell, avancarPara],
+  )
+
   useEffect(() => {
     if (pausado || movimentoReduzido || total <= 1) return
     const t = setInterval(
@@ -112,5 +131,8 @@ export function useCarrossel(total) {
     [],
   )
 
-  return { indice, irPara, pausar, retomar, aoEntrarLateral, aoSairLateral }
+  return {
+    indice, irPara, pausar, retomar,
+    aoEntrarLateral, aoSairLateral, aoClicarLateral,
+  }
 }

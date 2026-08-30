@@ -103,6 +103,39 @@ describe('Carrossel', () => {
       .toHaveAttribute('data-id', repos[1].id)
   })
 
+  it('clicar numa lateral a traz para o centro', () => {
+    const { container } = montar()
+    const direita = container.querySelector('[data-posicao="1"]')
+    const id = direita.dataset.id
+
+    act(() => fireEvent.click(direita))
+
+    expect(container.querySelector('[data-posicao="0"]'))
+      .toHaveAttribute('data-id', id)
+    expect(screen.getByText(repos[1].texto)).toBeInTheDocument()
+  })
+
+  it('clicar na lateral esquerda volta um slide, e nao avanca', () => {
+    // A esquerda e a posicao -1: se o clique passasse a posicao no lugar do
+    // indice do slide, os dois lados andariam para a frente.
+    const { container } = montar()
+    const esquerda = container.querySelector('[data-posicao="-1"]')
+    const id = esquerda.dataset.id
+
+    act(() => fireEvent.click(esquerda))
+
+    expect(container.querySelector('[data-posicao="0"]'))
+      .toHaveAttribute('data-id', id)
+    expect(id).toBe(repos[repos.length - 1].id)
+  })
+
+  it('clicar no centro nao mexe no trilho', () => {
+    const { container } = montar()
+    act(() => fireEvent.click(container.querySelector('[data-posicao="0"]')))
+    expect(container.querySelector('[data-posicao="0"]'))
+      .toHaveAttribute('data-id', repos[0].id)
+  })
+
   it('anuncia a mudanca de slide para leitores de tela sem remontar a regiao viva', () => {
     const { container } = montar()
     const antes = [...container.querySelectorAll('[aria-live="polite"]')]
@@ -140,6 +173,29 @@ describe('Carrossel — sem hover (celular)', () => {
     act(() => vi.advanceTimersByTime(12000))
 
     expect(screen.getByText(repos[1].texto)).toBeInTheDocument()
+  })
+
+  it('sem hover, tocar numa lateral ainda a traz para o centro', () => {
+    // O toque nao emite hover, e e por hover que o desktop centraliza. Se o
+    // clique tivesse ficado atras do mesmo portao `temHover` dos outros dois
+    // manipuladores, a lateral seria inerte no celular.
+    vi.spyOn(globalThis, 'matchMedia').mockReturnValue({
+      matches: false,
+      media: '(hover: hover)',
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })
+
+    const { container } = montar()
+    const direita = container.querySelector('[data-posicao="1"]')
+    const id = direita.dataset.id
+
+    act(() => fireEvent.click(direita))
+
+    expect(container.querySelector('[data-posicao="0"]'))
+      .toHaveAttribute('data-id', id)
   })
 })
 
