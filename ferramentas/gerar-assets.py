@@ -27,10 +27,40 @@ PASTAS_FOTOS = (
 )
 FOTOS = next((p for p in PASTAS_FOTOS if p.is_dir()), PASTAS_FOTOS[0])
 
-# Um placeholder por slide de src/dados/repos.json. Os dois numeros andam
-# juntos: um slide sem imagem quebra o teste de dados, e um placeholder a
-# mais fica orfao em public/img.
+# Uma imagem por slide de src/dados/repos.json — a foto do projeto, quando
+# ja existe, ou o placeholder do morcego. Os dois numeros andam juntos: um
+# slide sem imagem quebra o teste de dados, e uma imagem a mais fica orfa
+# em public/img.
 TOTAL_REPOS = 9
+
+# Quadro dos slides. O CSS mostra o central em 16/9 e as laterais em 4/3:
+# o asset nasce em 16/9 e o navegador fecha o recorte das laterais.
+LARGURA_REPO, ALTURA_REPO = 1600, 900
+PROPORCAO_REPO = LARGURA_REPO / ALTURA_REPO
+QUALIDADE_REPO = 85
+
+# Cor da moldura. Nenhuma foto e recortada para caber no 16/9: ela entra
+# inteira e a cor completa o que falta dos lados. Quem quiser um
+# enquadramento mais fechado recorta o proprio original antes de solta-lo
+# em origem/repos — assim o corte fica visivel no arquivo, e nao escondido
+# num parametro.
+BRANCO = (255, 255, 255)
+PRETO = (0, 0, 0)
+
+# Foto de cada projeto, com a cor da moldura. A chave e o id do slide em
+# src/dados/repos.json; quem nao esta aqui continua com o placeholder do
+# morcego — sao os projetos cuja foto ainda nao chegou.
+#
+# A cor e sempre a do fundo por tras da imagem: branco nos diagramas e no
+# render, que ja vem sobre branco chapado, e preto no resto, que e a cor da
+# pagina — nos dois casos a borda nao aparece como borda.
+FOTOS_REPO = {
+    "repo-01": ("betti.jpg", BRANCO),
+    "repo-03": ("simulacao-celular.jpg", BRANCO),
+    "repo-04": ("bioprinter.jpg", PRETO),
+    "repo-05": ("quantum-machine-learning.jpg", BRANCO),
+    "repo-09": ("mesa-optica-virtual.jpg", PRETO),
+}
 
 LADO_RETRATO = 800
 QUALIDADE_RETRATO = 82
@@ -46,6 +76,8 @@ MARCA_VETOR = ORIGEM / "part lifa vetor.svg"
 
 # Foto do hero, ja tratada em preto-e-branco pelo cliente.
 HERO_ORIGEM = ORIGEM / "hero.jpg"
+# Fotos e renders dos projetos, uma por slide do carrossel.
+REPOS_ORIGEM = ORIGEM / "repos"
 QUALIDADE_HERO = 88
 # Indices dos paths no arquivo original: silhueta e os dois olhos.
 PATH_SILHUETA = 2
@@ -266,6 +298,41 @@ def gerar_iniciais(destino: Path, iniciais: str) -> None:
     )
 
 
+def encolher(quadro: Image.Image) -> Image.Image:
+    """Reduz ao quadro de referencia. Nunca amplia.
+
+    Mesma razao do hero: ampliar nao inventa detalhe, so peso — e nos
+    diagramas, que sao tracos finos sobre branco, a ampliacao ainda por
+    cima borra a linha.
+    """
+    if quadro.width <= LARGURA_REPO:
+        return quadro
+    return quadro.resize((LARGURA_REPO, ALTURA_REPO), Image.LANCZOS)
+
+
+def emoldurar_quadro(imagem: Image.Image, cor: tuple) -> Image.Image:
+    """A imagem inteira, centrada num 16/9 completado com `cor`.
+
+    Nada de conteudo e cortado para o quadro fechar na proporcao do slide:
+    o que falta vira borda, na cor do fundo que a imagem ja tem.
+    """
+    largura = max(imagem.width, round(imagem.height * PROPORCAO_REPO))
+    altura = round(largura / PROPORCAO_REPO)
+    quadro = Image.new("RGB", (largura, altura), cor)
+    quadro.paste(
+        imagem,
+        ((largura - imagem.width) // 2, (altura - imagem.height) // 2),
+    )
+    return encolher(quadro)
+
+
+def gerar_foto_repo(origem: Path, destino: Path, cor: tuple) -> None:
+    """Normaliza a foto de um projeto para o quadro do carrossel."""
+    imagem = endireitar(Image.open(origem)).convert("RGB")
+    quadro = emoldurar_quadro(imagem, cor)
+    quadro.save(destino, "JPEG", quality=QUALIDADE_REPO, optimize=True)
+
+
 def marca_centrada(largura: int, altura: int) -> str:
     """A silhueta do morcego encaixada no centro de um quadro qualquer.
 
@@ -324,7 +391,18 @@ def main() -> None:
     # O hero.svg generico saiu junto com o placeholder: ha foto de verdade.
     gerar_hero()
     for n in range(1, TOTAL_REPOS + 1):
-        gerar_placeholder(IMAGENS / f"repo-{n:02d}.svg", 1600, 900)
+        slide = f"repo-{n:02d}"
+        placeholder = IMAGENS / f"{slide}.svg"
+        if slide in FOTOS_REPO:
+            arquivo, cor = FOTOS_REPO[slide]
+            gerar_foto_repo(
+                REPOS_ORIGEM / arquivo, IMAGENS / f"{slide}.jpg", cor
+            )
+            # Sem isso o placeholder da rodada anterior fica no disco: dois
+            # arquivos para o mesmo slide e o JSON apontando so para um.
+            placeholder.unlink(missing_ok=True)
+        else:
+            gerar_placeholder(placeholder, LARGURA_REPO, ALTURA_REPO)
 
     # Os antigos equipe-NN.svg genericos sairam de cena: cada pessoa agora
     # tem retrato proprio, ou um SVG de iniciais enquanto a foto oficial

@@ -1,8 +1,8 @@
 [
   {
     "id": "repo-01",
-    "imagem": "img/repo-01.svg",
-    "alt": "Morcego do LIFAROBOTS no espaço reservado para a foto do projeto BETTI",
+    "imagem": "img/repo-01.jpg",
+    "alt": "Render 3D da bancada BETTI: um motor cilíndrico acoplado por eixo ao suporte de ensaio, montado sobre trilho com pés reguláveis.",
     "nome": "BETTI",
     "texto": "Better Eletronic Torque Telemetry Inteligence. Desenvolvida para suprir a demanda por ensaios precisos e acessíveis, a BETTI é uma solução universal e autocalibrável voltada à caracterização de torque em motores robóticos. A tecnologia alia baixo custo e versatilidade ao mapear curvas de desempenho com exatidão, maximizando a eficiência de algoritmos de controle com alto potencial de escalabilidade para o mercado. Atualmente em estágio de protótipo funcional, o sistema passa pela validação de sua metodologia de calibração em bancada.",
     "url": null
@@ -17,24 +17,24 @@
   },
   {
     "id": "repo-03",
-    "imagem": "img/repo-03.svg",
-    "alt": "Morcego do LIFAROBOTS no espaço reservado para a imagem da Simulação de Dinâmica Celular Multi-Escala",
+    "imagem": "img/repo-03.jpg",
+    "alt": "Diagrama de uma célula comprimida entre duas superfícies, com a membrana celular, os filamentos de actina e a membrana nuclear identificados na legenda.",
     "nome": "Simulação de Dinâmica Celular Multi-Escala",
     "texto": "Ambiente computacional avançado para modelagem de dinâmicas celulares e teciduais complexas com alto rigor de validação internacional. A tecnologia viabiliza a exploração de novos parâmetros biofísicos e direciona análises para regiões críticas de resposta mecânica. Atualmente em fase de expansão para múltiplos arranjos celulares, o sistema impulsiona o desenvolvimento de pesquisa biomédica e biofísica computacional de alta performance.",
     "url": null
   },
   {
     "id": "repo-04",
-    "imagem": "img/repo-04.svg",
-    "alt": "Morcego do LIFAROBOTS no espaço reservado para a foto da Bioprinter & Biocam",
+    "imagem": "img/repo-04.jpg",
+    "alt": "Bioimpressora inteira sobre a bancada: dentro do gabinete preto, a mesa de impressão fica suspensa entre as guias, com o extrusor acima dela e o controle de visor na base.",
     "nome": "Bioprinter & Biocam",
     "texto": "Plataforma de bioimpressão automatizada desenvolvida para fabricação de estruturas biológicas com alta precisão e custo reduzido frente às soluções convencionais de mercado. Integrando uma estação com microscopia acoplada para monitoramento contínuo e análise de imagens em tempo real durante a conformação tecidual, o sistema garante rigoroso controle de qualidade operacional. Atualmente em fase de desenvolvimento e validação dos primeiros protótipos funcionais, o projeto democratiza a bioengenharia avançada para pesquisa médica e cultivo celular.",
     "url": null
   },
   {
     "id": "repo-05",
-    "imagem": "img/repo-05.svg",
-    "alt": "Morcego do LIFAROBOTS no espaço reservado para a imagem da Iniciativa Rodeo",
+    "imagem": "img/repo-05.jpg",
+    "alt": "Circuito quântico do algoritmo Rodeo: os qubits de controle passam por portas Hadamard e de fase em torno do bloco Bull Operator, que aplica a evolução temporal do sistema.",
     "nome": "Quantum & Machine Learning — Iniciativa Rodeo",
     "texto": "Frente de pesquisa científica focada no desenvolvimento e aplicação de algoritmos quânticos e aprendizado de máquina híbrido para superar limitações clássicas de precisão e eficiência computacional. A iniciativa cria técnicas proprietárias capazes de entregar alto desempenho mesmo simuladas em arquiteturas convencionais, potencializando a resolução de problemas complexos. Abrangendo desde a formulação teórica até a validação prática em desafios específicos, a divisão consolida a vanguarda científica e a capacidade de inovação tecnológica.",
     "url": null
@@ -65,8 +65,8 @@
   },
   {
     "id": "repo-09",
-    "imagem": "img/repo-09.svg",
-    "alt": "Morcego do LIFAROBOTS no espaço reservado para a imagem da Mesa Óptica Virtual",
+    "imagem": "img/repo-09.jpg",
+    "alt": "Simulação de uma mesa óptica: dois feixes de laser partem de espelhos à esquerda e se cruzam sobre a bancada; um termina num bloco escuro e o outro projeta um ponto luminoso no anteparo à direita.",
     "nome": "Mesa Óptica Virtual",
     "texto": "Ambiente computacional voltado à simulação e validação de circuitos ópticos em laboratório, projetado para acelerar o treinamento técnico e otimizar o tempo de bancada. Com alto nível de flexibilidade e escalabilidade, a solução permite testar configurações experimentais sem custos adicionais de maquinário físico. Atualmente em fase de pesquisa contínua e expansão científica, o projeto integra o portfólio de inovação aplicada, pavimentando o avanço para modelagens avançadas e aplicações de fronteira.",
     "url": null

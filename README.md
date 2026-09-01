@@ -19,12 +19,11 @@ npm run dev
 | `repos.json` | Slides do carrossel |
 | `equipe.json` | Áreas (na ordem das abas) e integrantes |
 
-Os marcadores `[[LACUNA: ...]]` já saíram: o texto real entrou. O que ainda é
-provisório são as **imagens** do carrossel — os nove slides usam placeholders
-`repo-NN.svg`, o morcego da marca sobre o grid, até as fotos dos projetos
-chegarem (veja *Trocar as imagens*).
-Ao trocar a imagem, troque também o `alt`, que hoje descreve o espaço
-reservado, não a foto.
+Os marcadores `[[LACUNA: ...]]` já saíram: o texto real entrou. Cinco dos nove
+slides do carrossel já mostram a imagem do projeto; os outros quatro seguem
+com o placeholder `repo-NN.svg`, o morcego da marca sobre o grid, até a foto
+chegar (veja *Fotos dos projetos*). Ao trocar a imagem, troque também o `alt`:
+nesses quatro ele ainda descreve o espaço reservado, não a foto.
 
 Em `equipe.json`, a lista `areas` no topo define a ordem das abas do filtro,
 e `pessoas` lista a equipe. Uma pessoa pode pertencer a mais de uma área —
@@ -61,34 +60,47 @@ tem `url` e continua texto puro:
 
 ## Trocar as imagens
 
-Coloque os arquivos em `public/img/` e aponte o caminho no JSON correspondente.
+O hero, os slides do carrossel e os retratos da equipe saem todos de
+`ferramentas/gerar-assets.py`, a partir dos originais em `ferramentas/origem/`.
+Para o hero, substitua `ferramentas/origem/hero.jpg` e rode o script; para os
+outros dois, veja as seções abaixo.
 
-| Onde | Tamanho | Formato |
+| Onde | Quadro | Formato |
 |---|---|---|
-| Carrossel | 1600 × 900 | JPEG |
+| Carrossel | 16/9, até 1600 × 900 | JPEG |
 | Equipe | 800 × 800 | JPEG |
 
-O hero e os retratos da equipe não se trocam por aqui: os dois saem de
-`ferramentas/gerar-assets.py`. Para o hero, substitua
-`ferramentas/origem/hero.jpg` e rode o script; para a equipe, veja
-*Fotos da equipe* abaixo.
-
-Por exemplo, para trocar a foto do primeiro slide do carrossel, em
-`src/dados/repos.json`, mude o campo `"imagem"`:
-
-```json
-"imagem": "img/repo-01.svg"
-```
-
-```json
-"imagem": "img/repo-01.jpg"
-```
-
-O arquivo `repo-01.jpg` precisa existir em `public/img/`. O caminho no JSON
-sempre começa com `img/`, sem `public/` na frente.
+O caminho no JSON sempre começa com `img/`, sem `public/` na frente:
+`"imagem": "img/repo-02.svg"` aponta para `public/img/repo-02.svg`.
 
 Não converta para preto-e-branco — o site faz isso sozinho no CSS, no hero,
 nos slides do carrossel e nos retratos da equipe.
+
+### Fotos dos projetos
+
+Os originais ficam em `ferramentas/origem/repos/` e o gerador normaliza cada
+um para o quadro 16/9 do slide. Para dar foto a um slide que ainda está com o
+morcego:
+
+1. Ponha o original em `ferramentas/origem/repos/`.
+2. Em `ferramentas/gerar-assets.py`, acrescente o slide em `FOTOS_REPO`:
+   `id` → (arquivo, cor da moldura).
+3. Rode `python3 ferramentas/gerar-assets.py`. O placeholder `repo-NN.svg`
+   sai do disco e no lugar dele entra `repo-NN.jpg`.
+4. Em `src/dados/repos.json`, aponte `"imagem"` para `img/repo-NN.jpg` e
+   troque o `alt`, que passa a descrever a foto.
+
+Nada é cortado: a imagem entra inteira no quadro e a cor da moldura completa o
+que falta dos lados. A cor é a do fundo que a imagem já tem — `BRANCO` para
+diagrama sobre fundo chapado, `PRETO` para o resto, que é a cor da página. Nos
+dois casos a borda não aparece como borda. Para um enquadramento mais fechado,
+recorte o próprio original antes de soltá-lo em `origem/repos/`: assim o corte
+fica visível no arquivo, e não escondido num parâmetro.
+
+Nada é ampliado, também: uma imagem menor que 1600 × 900 vira um quadro 16/9
+menor, e o navegador cuida do resto. `python3 -m pytest ferramentas/` confere
+que a tabela e o `repos.json` apontam para os mesmos arquivos, e `npm test`
+reclama se o caminho do JSON não existir em `public/`.
 
 ### Fotos da equipe
 
@@ -151,10 +163,11 @@ renomeado ou movido para outra conta, atualize `base` de acordo.
 
 `ferramentas/gerar-assets.py` é um script auxiliar, executado manualmente e
 fora do build. Ele gera, a partir de `ferramentas/origem/`, a logo, o
-morcego, a foto do hero e os placeholders SVG do carrossel; e, a partir da
-pasta de fotos oficiais, os retratos da equipe. Não roda em CI nem é
-necessário para rodar ou publicar o site — os arquivos que ele produz já
-estão commitados em `public/` e são o entregável real.
+morcego, a foto do hero, as fotos dos projetos e os placeholders SVG dos
+slides que ainda não têm foto; e, a partir da pasta de fotos oficiais, os
+retratos da equipe. Não roda em CI nem é necessário para rodar ou publicar o
+site — os arquivos que ele produz já estão commitados em `public/` e são o
+entregável real.
 
 Rode-o apenas quando for necessário regenerar esses assets a partir da fonte
 (por exemplo, um novo recorte do mockup ou uma versão nova do vetor da

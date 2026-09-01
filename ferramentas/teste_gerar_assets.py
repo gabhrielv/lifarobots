@@ -43,8 +43,14 @@ def gerar():
     # faz a contagem de arquivos no teste de placeholders significar algo.
     img = RAIZ / "public" / "img"
     pasta_backup = Path(tempfile.mkdtemp(prefix="gerar-assets-backup-"))
-    for svg in img.glob("*.svg"):
-        shutil.move(str(svg), str(pasta_backup / svg.name))
+    # As fotos dos slides entram junto pelo mesmo motivo dos SVGs: um
+    # repo-NN.jpg commitado sobreviveria a uma regressao que parasse de
+    # gera-lo, e o teste de enquadramento abaixo passaria sobre o arquivo
+    # velho. O hero e os retratos ficam de fora — nao dependem do loop dos
+    # slides e ha maquina onde os originais deles nem existem.
+    anteriores = list(img.glob("*.svg")) + list(img.glob("repo-*.jpg"))
+    for arquivo in anteriores:
+        shutil.move(str(arquivo), str(pasta_backup / arquivo.name))
 
     try:
         resultado = subprocess.run(
@@ -53,8 +59,8 @@ def gerar():
         )
         if resultado.returncode != 0:
             img.mkdir(parents=True, exist_ok=True)
-            for svg in pasta_backup.glob("*.svg"):
-                shutil.move(str(svg), str(img / svg.name))
+            for arquivo in pasta_backup.iterdir():
+                shutil.move(str(arquivo), str(img / arquivo.name))
         assert resultado.returncode == 0, resultado.stderr
         return resultado
     finally:
@@ -102,10 +108,12 @@ def teste_morcego_e_vetor_branco_sem_fundo():
 def teste_placeholders_foram_gerados():
     gerar()
     img = RAIZ / "public" / "img"
-    # O numero e literal de proposito: ler TOTAL_REPOS do gerador faria o
-    # teste concordar com o script em vez de com src/dados/repos.json, que
-    # e quem define quantos slides existem.
-    assert len(list(img.glob("repo-*.svg"))) == 9
+    # Os numeros sao literais de proposito: le-los do gerador faria o teste
+    # concordar com o script em vez de com src/dados/repos.json, que e quem
+    # define quantos slides existem. Sao nove ao todo — cinco ja com foto de
+    # projeto, quatro ainda com o morcego.
+    assert len(list(img.glob("repo-*.svg"))) == 4
+    assert len(list(img.glob("repo-*.jpg"))) == 5
 
     # Dois placeholders foram aposentados quando entrou conteudo de verdade:
     # os equipe-NN.svg, quando a grade ganhou gente, e o hero.svg, quando
@@ -115,7 +123,7 @@ def teste_placeholders_foram_gerados():
 
     # Cobre o mesmo tipo de checagem de conteudo para um repo-*, para nao
     # depender so da contagem de arquivos.
-    repo = (img / "repo-01.svg").read_text()
+    repo = (img / "repo-02.svg").read_text()
     assert 'width="1600"' in repo
     assert 'height="900"' in repo
 
@@ -127,6 +135,60 @@ def teste_placeholders_foram_gerados():
     assert repo.count("<path ") == 3
     assert repo.count('fill="#ffffff"') == 1, "silhueta deveria ser branca"
     assert repo.count('fill="#000000"') == 2, "os dois olhos deveriam ser pretos"
+
+
+def teste_fotos_dos_repos_saem_no_quadro_do_slide():
+    gerar()
+    gerador = carregar_gerador()
+    img = RAIZ / "public" / "img"
+
+    for slide, (arquivo, _) in gerador.FOTOS_REPO.items():
+        foto = img / f"{slide}.jpg"
+        assert foto.exists(), f"faltou a foto de {slide}"
+        # O placeholder do slide tem de sumir: dois arquivos para o mesmo
+        # slide deixam um orfao em public/img e o JSON aponta so para um.
+        assert not (img / f"{slide}.svg").exists(), f"{slide} ficou com os dois"
+
+        imagem = Image.open(foto)
+        assert imagem.mode == "RGB"
+        # O CSS mostra o slide central em 16/9. Arredondamento de um pixel
+        # e inevitavel; qualquer coisa alem disso e enquadramento errado.
+        proporcao = imagem.width / imagem.height
+        assert abs(proporcao - 16 / 9) < 0.01, f"{slide}: {imagem.size}"
+        assert imagem.width <= gerador.LARGURA_REPO, f"{slide} passou do quadro"
+
+        # A origem nunca e ampliada. Um dos dois lados do quadro pode ser
+        # maior que o da origem — e a borda da moldura, nao ampliacao —,
+        # mas o outro acompanha a imagem: se o menor dos dois passar de 1,
+        # a foto em si foi esticada.
+        origem = Image.open(gerador.REPOS_ORIGEM / arquivo)
+        escala = min(
+            imagem.width / origem.width, imagem.height / origem.height
+        )
+        assert escala <= 1.0, f"{slide} foi ampliada em {escala:.2f}x"
+        assert not imagem.getexif(), f"{slide} ainda carrega EXIF"
+
+
+def teste_gerador_e_repos_json_apontam_para_os_mesmos_arquivos():
+    """A tabela de fotos e o repos.json sao editados a mao, um de cada vez.
+
+    Sem esta amarra, trocar a foto de um slide so no gerador deixa o JSON
+    apontando para o placeholder que acabou de ser apagado — imagem
+    quebrada em producao, e nenhum outro teste olha os dois lados juntos.
+    """
+    gerador = carregar_gerador()
+    repos = json.loads(
+        (RAIZ / "src" / "dados" / "repos.json").read_text(encoding="utf-8")
+    )
+
+    for slide in repos:
+        extensao = "jpg" if slide["id"] in gerador.FOTOS_REPO else "svg"
+        assert slide["imagem"] == f"img/{slide['id']}.{extensao}", slide["id"]
+
+    # Uma foto na tabela para um slide que nao existe no JSON nao aparece em
+    # lugar nenhum do site — so ocupa espaco em public/img.
+    ids = {slide["id"] for slide in repos}
+    assert set(gerador.FOTOS_REPO) <= ids, sorted(set(gerador.FOTOS_REPO) - ids)
 
 
 def teste_hero_e_foto_e_nao_placeholder():
